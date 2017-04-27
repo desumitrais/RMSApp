@@ -1,0 +1,18 @@
+# -------------- #
+# Java defaults  #
+# -------------- #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+#------------------------#
+# IntelliJ IDEA specific #
+#------------------------#
+*.iml
+.idea/
+/target/
+/settings.xml
+/bin/
