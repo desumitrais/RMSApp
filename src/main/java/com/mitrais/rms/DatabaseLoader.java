@@ -1,5 +1,7 @@
 package com.mitrais.rms;
 
+import com.mitrais.rms.dao.EmployeeRepository;
+import com.mitrais.rms.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
