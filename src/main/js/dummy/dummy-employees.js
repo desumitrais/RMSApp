@@ -1,0 +1,31 @@
+export const dummyEmployeesData = [ {
+      firstName : "Frodo",
+      lastName : "Baggins",
+      description : "ring bearer",
+      genderID : null,
+      dob : null,
+      maritalStatusID : null,
+      nationalityID : null,
+      statusID : null,
+      subDivisionID : null,
+      divisionID : null,
+      suspendDate : null,
+      hireDate : null,
+      gradeID : null,
+      email : null
+    }, {
+      firstName : "Bilbo",
+      lastName : "Baggins",
+      description : "burglar",
+      genderID : null,
+      dob : null,
+      maritalStatusID : null,
+      nationalityID : null,
+      statusID : null,
+      subDivisionID : null,
+      divisionID : null,
+      suspendDate : null,
+      hireDate : null,
+      gradeID : null,
+      email : null
+}];
