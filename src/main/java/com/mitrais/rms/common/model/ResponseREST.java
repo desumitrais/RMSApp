@@ -1,4 +1,4 @@
-package com.mitrais.rms;
+package com.mitrais.rms.common.model;
 
 /**
  * Created by made_sudarsana on 4/27/2017.

@@ -1,15 +1,17 @@
-package com.mitrais.rms.model;
+package com.mitrais.rms.employee.model;
+
+import com.mitrais.rms.common.model.CommonEntity;
+
+import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import lombok.Data;
-
-import java.util.Date;
+import javax.persistence.Transient;
 
 @Entity
-public class Employee {
+public class Employee extends CommonEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -28,6 +30,20 @@ public class Employee {
     private Date   hireDate;
     private String gradeID;
     private String email;
+    private String phone;
+
+    @Transient
+    private String maritalStatusStr;
+    @Transient
+    private String nationalityStr;
+    @Transient
+    private String statusStr;
+    @Transient
+    private String subDivisionStr;
+    @Transient
+    private String divisionStr;
+    @Transient
+    private String gradeStr;
 
     public Employee() {
     }
@@ -40,10 +56,22 @@ public class Employee {
 
     public Employee(String firstName, String lastName, String description, String genderID, Date dob,
             String maritalStatusID, String nationalityID, String statusID, String subDivisionID, String divisionID,
-            Date suspendDate, Date hireDate, String gradeID, String email) {
+            Date suspendDate, Date hireDate, String gradeID, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
+        this.genderID = genderID;
+        this.dob = dob;
+        this.maritalStatusID = maritalStatusID;
+        this.nationalityID = nationalityID;
+        this.statusID = statusID;
+        this.subDivisionID = subDivisionID;
+        this.divisionID = divisionID;
+        this.suspendDate = suspendDate;
+        this.hireDate = hireDate;
+        this.gradeID = gradeID;
+        this.email = email;
+        this.phone = phone;
     }
 
     public Long getId() {
@@ -164,5 +192,61 @@ public class Employee {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getMaritalStatusStr() {
+        return maritalStatusStr;
+    }
+
+    public void setMaritalStatusStr(String maritalStatusStr) {
+        this.maritalStatusStr = maritalStatusStr;
+    }
+
+    public String getNationalityStr() {
+        return nationalityStr;
+    }
+
+    public void setNationalityStr(String nationalityStr) {
+        this.nationalityStr = nationalityStr;
+    }
+
+    public String getStatusStr() {
+        return statusStr;
+    }
+
+    public void setStatusStr(String statusStr) {
+        this.statusStr = statusStr;
+    }
+
+    public String getSubDivisionStr() {
+        return subDivisionStr;
+    }
+
+    public void setSubDivisionStr(String subDivisionStr) {
+        this.subDivisionStr = subDivisionStr;
+    }
+
+    public String getDivisionStr() {
+        return divisionStr;
+    }
+
+    public void setDivisionStr(String divisionStr) {
+        this.divisionStr = divisionStr;
+    }
+
+    public String getGradeStr() {
+        return gradeStr;
+    }
+
+    public void setGradeStr(String gradeStr) {
+        this.gradeStr = gradeStr;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
