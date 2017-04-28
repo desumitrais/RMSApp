@@ -10,7 +10,7 @@ import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionPowerSettingsNew from 'material-ui/svg-icons/action/power-settings-new';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
-import EmployeeList from './components/EmployeeList';
+import EmployeeListContainer from '../home/components/EmployeeList/containers/employee-list.container';
 
 class HomeScreen extends React.Component {
 
@@ -35,7 +35,7 @@ class HomeScreen extends React.Component {
                 <MuiThemeProvider>
                     <div className="panel-container">
                         <div className="col-sm-4">
-                            <EmployeeList />
+                            <EmployeeListContainer />
                         </div>
                         <div className="col-sm-8">
                         </div>

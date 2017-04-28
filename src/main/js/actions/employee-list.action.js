@@ -76,14 +76,14 @@ export const clearError = (index) => ({
 
 export const fetchEmployees = () => dispatch => {
 
-    let url = 'http://localhost:8080/api/employees/';
+    let url = 'http://localhost:8080/api/employeews/';
     fetch(url)
     .then(response => response.json())
     .then(employees => {
         debugger;
         dispatch({
             type: Action.GET_EMPLOYEE,
-            payload: employees
+            payload: employees.data.content
         })
         
     })

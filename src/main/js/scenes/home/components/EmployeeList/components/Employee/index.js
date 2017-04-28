@@ -1,5 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {ListItem} from 'material-ui/List';
+import ActionInfo from 'material-ui/svg-icons/action/info';
+import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
+import Avatar from 'material-ui/Avatar';
+import RadioButtonCheckedIcon from 'material-ui/svg-icons/toggle/radio-button-checked';
 
 class Employee extends React.Component {
 
@@ -9,19 +15,22 @@ class Employee extends React.Component {
 	}
 
 	handleDelete() {
-		this.props.onDelete(this.props.employee);
+		//this.props.onDelete(this.props.employee);
 	}
 
 	render() {
+		const abc = <div>
+			<div className="row">
+				<div className="col-xs-10"></div>
+				<div className="col-xs-2"></div>
+			</div>
+		</div>
 		return (
-			<tr>
-				<td>{this.props.employee.firstName}</td>
-				<td>{this.props.employee.lastName}</td>
-				<td>{this.props.employee.description}</td>
-				<td>
-					<button onClick={this.handleDelete}>Delete</button>
-				</td>
-			</tr>
+			<ListItem 
+				leftAvatar={<Avatar src="images/ok-128.jpg" />}
+				primaryText={this.props.firstName + "" + this.props.lastName}
+				secondaryText={this.props.description}>
+			</ListItem>
 		)
 	}
 }

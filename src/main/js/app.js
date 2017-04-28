@@ -4,6 +4,9 @@ const React = require('react');
 const ReactDOM = require('react-dom')
 const client = require('./client');
 import HomeScreen from './scenes/home';
+import { Provider } from 'react-redux';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import appStore from './store/app.store';
 
 const follow = require('./follow'); // function to hop multiple links by "rel"
 
@@ -109,7 +112,11 @@ class App extends React.Component {
 	}
 }
 
+injectTapEventPlugin();
+
 ReactDOM.render(
-	<App />,
+	<Provider store={appStore}>
+		<App />
+	</Provider>,
 	document.getElementById('react')
 )

@@ -6,7 +6,10 @@ export const employeesReducer = (state=[], action) => {
   switch (action.type) {
     case Action.GET_EMPLOYEE :
     debugger; 
-    let test = action.payload.map(employeeReducer(undefined, action))
+    let test;
+    for(let i=0; i<action.payload.length; i++){
+      test.push(employeeReducer(undefined, action))
+    }
       return test
     case Action.ADD_EMPLOYEE :
       return [
