@@ -1,8 +1,8 @@
 package com.mitrais.rms.common.model;
 
-import java.util.Date;
-
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import java.util.Date;
 
 /**
  * Created by made_sudarsana on 4/28/2017.
@@ -10,10 +10,15 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class CommonEntity {
 
+    @Column(name = "createdby")
     protected String createdBy;
+    @Column(name = "createddate")
     protected Date   createdDate;
+    @Column(name = "updatedby")
     protected String updatedBy;
+    @Column(name = "updateddate")
     protected Date   updatedDate;
+    @Column(name = "recordstatusid")
     protected int    recordStatusID;
 
     public String getCreatedBy() {

@@ -1,7 +1,10 @@
 package com.mitrais.rms.employee.service;
 
+import com.mitrais.rms.common.SearchParameter;
 import com.mitrais.rms.employee.model.Employee;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Created by made_sudarsana on 4/28/2017.
@@ -9,14 +12,14 @@ import org.springframework.data.domain.Pageable;
 public interface EmployeeService {
     Iterable<Employee> findAllEmployee(Pageable pageable);
 
-    Employee findByID(Long employeeGUID);
+    Employee findByID(String employeeGUID);
 
-    Iterable<Employee> searchEmployee(Pageable pageable, Employee employee);
+    List<Employee> searchEmployee(SearchParameter searchParameter);
 
-    Long saveEmployee(Employee employee);
+    String saveEmployee(Employee employee);
 
     Employee updateEmployee(Employee employee);
 
-    void deleteEmployee(Long id);
+    void deleteEmployee(String id);
 
 }

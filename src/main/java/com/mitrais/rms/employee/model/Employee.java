@@ -2,34 +2,45 @@ package com.mitrais.rms.employee.model;
 
 import com.mitrais.rms.common.model.CommonEntity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-
 @Entity
+@Table(name = "employee")
 public class Employee extends CommonEntity implements Serializable {
 
     @Id
-    @GeneratedValue
-    private Long   id;
+    private String id;
+    @Column(name = "firstname")
     private String firstName;
+    @Column(name = "lastname")
     private String lastName;
+    @Column(name = "description")
     private String description;
+    @Column(name = "genderid")
     private String genderID;
+    @Column(name = "dob")
     private Date   dob;
+    @Column(name = "maritalstatusid")
     private String maritalStatusID;
+    @Column(name = "nationalityid")
     private String nationalityID;
+    @Column(name = "statusid")
     private String statusID;
+    @Column(name = "subdivisionid")
     private String subDivisionID;
+    @Column(name = "divisionid")
     private String divisionID;
+    @Column(name = "suspenddate")
     private Date   suspendDate;
+    @Column(name = "hiredate")
     private Date   hireDate;
+    @Column(name = "gradeid")
     private String gradeID;
+    @Column(name = "email")
     private String email;
+    @Column(name = "phone")
     private String phone;
 
     @Transient
@@ -74,11 +85,11 @@ public class Employee extends CommonEntity implements Serializable {
         this.phone = phone;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

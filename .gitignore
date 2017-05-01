@@ -17,18 +17,11 @@
 /settings.xml
 /bin/
 
-#------------------------#
-
-# Node modules etc	 #
-
-#------------------------#
-
+#------------------#
+# Node modules etc #
+#------------------#
 node_modules
-
 typings
-
 npm-debug.log*
-
 .DS_store
-
-src/main/resources/static/built/
+/src/main/resources/static/built/*

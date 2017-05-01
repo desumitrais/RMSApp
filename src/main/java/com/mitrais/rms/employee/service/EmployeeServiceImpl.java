@@ -1,11 +1,15 @@
 package com.mitrais.rms.employee.service;
 
 import com.mitrais.rms.common.RMSConstantsIntf;
+import com.mitrais.rms.common.SearchParameter;
 import com.mitrais.rms.employee.dao.EmployeeRepository;
 import com.mitrais.rms.employee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by made_sudarsana on 4/28/2017.
@@ -22,17 +26,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findByID(Long employeeGUID) {
+    public Employee findByID(String employeeGUID) {
         return employeeDao.findOne(employeeGUID);
     }
 
     @Override
-    public Iterable<Employee> searchEmployee(Pageable pageable, Employee employee) {
-        return employeeDao.searchEmployee(pageable, employee);
+    public List<Employee> searchEmployee(SearchParameter searchParameter) {
+        return employeeDao.searchEmployee(searchParameter);
     }
 
     @Override
-    public Long saveEmployee(Employee employee) {
+    public String saveEmployee(Employee employee) {
+        employee.setId(UUID.randomUUID().toString());
         employee = employeeDao.save(employee);
         return employee.getId();
     }
@@ -67,7 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmployee(Long id) {
+    public void deleteEmployee(String id) {
         Employee oriEmployee = employeeDao.findOne(id);
         if (oriEmployee != null) {
             oriEmployee.setRecordStatusID(RMSConstantsIntf.RecordStatus.DELETE);
