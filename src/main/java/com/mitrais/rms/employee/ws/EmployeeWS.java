@@ -44,10 +44,8 @@ public class EmployeeWS {
         SearchParameter searchParameter = new SearchParameter(filter, sort, pageable);
         List<Employee>  employees = employeeService.searchEmployee(searchParameter);
 
-        List<Employee> listEmployee = StreamSupport.stream(employees.spliterator(), false).collect(Collectors.toList());
-
         ResponseREST response = new ResponseREST();
-        response.setData(listEmployee);
+        response.setData(employees);
         response.setStatus(ResponseREST.SUCCESS);
         return response;
     }

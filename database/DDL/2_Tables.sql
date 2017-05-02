@@ -36,3 +36,19 @@ create table lookup (
     recordstatusid smallint NOT NULL DEFAULT 1,
     CONSTRAINT pk_lookup PRIMARY KEY (id)
 );
+
+create table family (
+    id character(36) NOT NULL,
+    employeeguid character(36) NOT NULL,
+    firstname character varying(40),
+    lastname character varying(40) NOT NULL,
+    genderid character(1),
+    dob timestamp without time zone,
+    familytypeid character varying(3),
+    createdby character(36) NOT NULL,
+    createddate timestamp without time zone NOT NULL,
+    updatedby character(36) NOT NULL,
+    updateddate timestamp without time zone NOT NULL,
+    recordstatusid smallint NOT NULL DEFAULT 1,
+    CONSTRAINT pk_family PRIMARY KEY (id)
+);

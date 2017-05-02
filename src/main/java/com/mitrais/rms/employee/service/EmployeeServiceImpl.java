@@ -2,12 +2,16 @@ package com.mitrais.rms.employee.service;
 
 import com.mitrais.rms.common.RMSConstantsIntf;
 import com.mitrais.rms.common.SearchParameter;
+import com.mitrais.rms.common.dao.LookupRepository;
+import com.mitrais.rms.common.model.Lookup;
 import com.mitrais.rms.employee.dao.EmployeeRepository;
 import com.mitrais.rms.employee.model.Employee;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +23,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     EmployeeRepository employeeDao;
+
+    @Autowired
+    LookupRepository lookupRepo;
 
     @Override
     public Iterable<Employee> findAllEmployee(Pageable pageable) {
@@ -32,7 +39,44 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> searchEmployee(SearchParameter searchParameter) {
-        return employeeDao.searchEmployee(searchParameter);
+        List<Employee> employees = employeeDao.searchEmployee(searchParameter);
+        List<String> lookupnames = new ArrayList<>();
+        lookupnames.add("genderid");
+        lookupnames.add("nationalityid");
+        lookupnames.add("maritalstatusid");
+        lookupnames.add("statusid");
+        lookupnames.add("subdivisionid");
+        lookupnames.add("divisionid");
+        lookupnames.add("gradeid");
+
+        List<Lookup> lookups = lookupRepo.findByLookupNameIn(lookupnames);
+
+        for (Employee employee : employees) {
+            employee.setGenderStr(getTextOnLookup(lookups, "genderid", employee.getGenderID()));
+            employee.setNationalityStr(getTextOnLookup(lookups, "nationalityid", employee.getNationalityID()));
+            employee.setMaritalStatusStr(getTextOnLookup(lookups, "maritalstatusid", employee.getMaritalStatusID()));
+            employee.setStatusStr(getTextOnLookup(lookups, "statusid", employee.getStatusID()));
+            employee.setSubDivisionStr(getTextOnLookup(lookups, "subdivisionid", employee.getSubDivisionID()));
+            employee.setDivisionStr(getTextOnLookup(lookups, "divisionid", employee.getDivisionID()));
+            employee.setGradeStr(getTextOnLookup(lookups, "gradeid", employee.getGradeID()));
+
+            employee.setFamilies(null);
+        }
+
+        return employees;
+    }
+
+    private String getTextOnLookup(List<Lookup> lookups, String lookupName, String lookupCode) {
+        Lookup selectedLookup = lookups.stream()
+                .filter(lookup -> lookup.getLookupName().equalsIgnoreCase(lookupName))
+                .filter(lookup -> lookup.getLookupCode().equalsIgnoreCase(lookupCode)).findFirst()
+                .orElse(new Lookup());
+
+        if(selectedLookup != null) {
+            return selectedLookup.getLookupText();
+        } else {
+            return StringUtils.EMPTY;
+        }
     }
 
     @Override

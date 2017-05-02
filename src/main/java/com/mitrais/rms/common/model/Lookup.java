@@ -1,5 +1,6 @@
 package com.mitrais.rms.common.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,12 +13,15 @@ import java.io.Serializable;
 @Entity
 public class Lookup extends CommonEntity implements Serializable {
     @Id
-    @GeneratedValue
-    private Long   id;
-    private String lookupName;
-    private int lookupValue;
-    private String lookupText;
-    private String lookupCode;
+    private String  id;
+    @Column(name = "lookupname")
+    private String  lookupName;
+    @Column(name = "lookupvalue", nullable = true)
+    private Integer lookupValue;
+    @Column(name = "lookuptext", nullable = true)
+    private String  lookupText;
+    @Column(name = "lookupcode", nullable = true)
+    private String  lookupCode;
 
     public Lookup() {
 
@@ -30,11 +34,11 @@ public class Lookup extends CommonEntity implements Serializable {
         this.lookupCode = lookupCode;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,11 +50,11 @@ public class Lookup extends CommonEntity implements Serializable {
         this.lookupName = lookupName;
     }
 
-    public int getLookupValue() {
+    public Integer getLookupValue() {
         return lookupValue;
     }
 
-    public void setLookupValue(int lookupValue) {
+    public void setLookupValue(Integer lookupValue) {
         this.lookupValue = lookupValue;
     }
 
