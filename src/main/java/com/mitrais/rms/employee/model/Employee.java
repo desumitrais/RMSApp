@@ -5,56 +5,62 @@ import com.mitrais.rms.common.model.CommonEntity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "employee")
 public class Employee extends CommonEntity implements Serializable {
 
     @Id
-    private String id;
+    private String     id;
     @Column(name = "firstname")
-    private String firstName;
+    private String     firstName;
     @Column(name = "lastname")
-    private String lastName;
+    private String     lastName;
     @Column(name = "description")
-    private String description;
+    private String     description;
     @Column(name = "genderid")
-    private String genderID;
+    private String     genderID;
     @Column(name = "dob")
-    private Date   dob;
+    private Date       dob;
     @Column(name = "maritalstatusid")
-    private String maritalStatusID;
+    private String     maritalStatusID;
     @Column(name = "nationalityid")
-    private String nationalityID;
+    private String     nationalityID;
     @Column(name = "statusid")
-    private String statusID;
+    private String     statusID;
     @Column(name = "subdivisionid")
-    private String subDivisionID;
+    private String     subDivisionID;
     @Column(name = "divisionid")
-    private String divisionID;
+    private String     divisionID;
     @Column(name = "suspenddate")
-    private Date   suspendDate;
+    private Date       suspendDate;
     @Column(name = "hiredate")
-    private Date   hireDate;
+    private Date       hireDate;
     @Column(name = "gradeid")
-    private String gradeID;
+    private String     gradeID;
     @Column(name = "email")
-    private String email;
+    private String     email;
     @Column(name = "phone")
-    private String phone;
+    private String     phone;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee", cascade = CascadeType.ALL)
+    public Set<Family> families;
 
     @Transient
-    private String maritalStatusStr;
+    private String     genderStr;
     @Transient
-    private String nationalityStr;
+    private String     maritalStatusStr;
     @Transient
-    private String statusStr;
+    private String     nationalityStr;
     @Transient
-    private String subDivisionStr;
+    private String     statusStr;
     @Transient
-    private String divisionStr;
+    private String     subDivisionStr;
     @Transient
-    private String gradeStr;
+    private String     divisionStr;
+    @Transient
+    private String     gradeStr;
 
     public Employee() {
     }
@@ -259,5 +265,21 @@ public class Employee extends CommonEntity implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getGenderStr() {
+        return genderStr;
+    }
+
+    public void setGenderStr(String genderStr) {
+        this.genderStr = genderStr;
+    }
+
+    public Set<Family> getFamilies() {
+        return families;
+    }
+
+    public void setFamilies(Set<Family> families) {
+        this.families = families;
     }
 }
