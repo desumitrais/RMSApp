@@ -12,10 +12,7 @@ const consoleMessages = store => next => action => {
     result = next(action);
 
     let { employees, selectedEmployee } = store.getState();
-    console.log(`
-        employees: ${employees},
-        selectedEmployee: ${selectedEmployee}
-    `)
+    console.log(`current state`, store.getState());
     return result;
 }
 
@@ -36,7 +33,5 @@ const saveState = () => {
 const appStore = storeFactory(initialState);
 
 appStore.subscribe(saveState);
-
-appStore.dispatch(fetchEmployees());
 
 export default appStore

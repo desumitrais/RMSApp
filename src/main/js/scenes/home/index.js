@@ -19,13 +19,18 @@ import Place from 'material-ui/svg-icons/maps/place';
 
 import EmployeeListContainer from '../home/components/EmployeeList/containers/employee-list.container';
 import EmployeeDetailContainer from '../home/components/EmployeeDetail/containers/employee-detail.container'
+import FamilyListContainer from '../home/components/FamilyList/containers/family-list.container'
+import { Route, Link } from 'react-router-dom';
+import appStore  from '../../store/app.store';
+import { fetchEmployees } from '../../actions/employee-list.action';
 
 class HomeScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {employees: [], attributes: [], pageSize: 2, links: {}};
-	}
+        appStore.dispatch(fetchEmployees());
+	}   
 
 	render() {
 		return (
@@ -52,7 +57,9 @@ class HomeScreen extends React.Component {
                                 </Tab>
                                 <Tab icon={<History />} />
                                 <Tab icon={<Assignment />} />
-                                <Tab icon={<Family />} />
+                                <Tab icon={<Family />} containerElement={<Link to="/home/family"/>}>
+                                    <Route path="/home/family" component={FamilyListContainer}/>
+                                </Tab>
                                 <Tab icon={<Home />} />
                                 <Tab icon={<Place />} />
                             </Tabs>

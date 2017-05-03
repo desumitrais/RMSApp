@@ -53,7 +53,6 @@ export const fetcEmployeeReducer = (state=false, action) => {
   }
 }
 
-export const selectedEmployeeReducer = (state={}, action) => {
-  console.log(action.type === Action.SET_SELECTED_EMPLOYEE ? action.payload : state);
+export const selectedEmployeeReducer = (state=null, action) => {
    return action.type === Action.SET_SELECTED_EMPLOYEE ? action.payload : state;
 }

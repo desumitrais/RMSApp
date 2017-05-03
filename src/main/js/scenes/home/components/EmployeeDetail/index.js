@@ -12,7 +12,7 @@ class EmployeeDetailComponent extends React.Component {
 	
 	render() {
 		return (
-            this.props.selectedEmployee ? (
+            this.props.selectedEmployee && this.props.selectedEmployee.firstName ? (
                 <div>
                     <div className="col-xs-5">
                         <List >
