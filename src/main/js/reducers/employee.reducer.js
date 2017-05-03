@@ -18,7 +18,27 @@ export const employeeReducer = (state, action) => {
                 suspendDate : payload.suspendDate,
                 hireDate : payload.hireDate,
                 gradeID : payload.gradeID,
-                email : payload.email
+                email : payload.email,
+                selected: false
+            }
+        case Action.SET_SELECTED_EMPLOYEE:
+            return {
+                id: state.id,
+                firstName : state.firstName,
+                lastName : state.lastName,
+                description : state.description,
+                genderID : state.genderID,
+                dob : state.dob,
+                maritalStatusID : state.maritalStatusID,
+                nationalityID : state.nationalityID,
+                statusID : state.statusID,
+                subDivisionID : state.subDivisionID,
+                divisionID : state.divisionID,
+                suspendDate : state.suspendDate,
+                hireDate : state.hireDate,
+                gradeID : state.gradeID,
+                email : state.email,
+                selected: true
             }
         default : 
             return state

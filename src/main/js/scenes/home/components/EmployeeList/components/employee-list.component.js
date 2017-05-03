@@ -51,7 +51,8 @@ class EmployeeListComponent extends React.Component {
 	render() {
 		return (
 			<div>
-			    <div className="panel-list-header">
+                <div className="panel-list-header">
+                    <ActionSearch color={'white'} style={{display: 'inline-flex', verticalAlign: 'middle'}}></ActionSearch>
                     <TextField
                         value={this.state.searchQuery}
                         hintText="Search"
@@ -67,7 +68,8 @@ class EmployeeListComponent extends React.Component {
                         { this.props.employees && this.props.employees.length>0 ? 
                             this.props.employees.map((employee,i) =>
                                     <Employee key={i} 
-                                    {...employee}/>
+                                    employee={employee}
+                                    selectEmployee={this.props.selectEmployee}/>
                             )
                              : (
                                 <div className="no-record">

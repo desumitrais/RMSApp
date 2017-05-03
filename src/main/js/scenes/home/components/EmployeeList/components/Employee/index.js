@@ -6,30 +6,66 @@ import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import RadioButtonCheckedIcon from 'material-ui/svg-icons/toggle/radio-button-checked';
+import moment from 'moment';
+import appStore from '../../../../../../store/app.store';
+import { Action } from '../../../../../../constants/employee.constant';
+
+import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 class Employee extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.handleDelete = this.handleDelete.bind(this);
+		this.onClick = this.onClick.bind(this);
 	}
 
 	handleDelete() {
 		//this.props.onDelete(this.props.employee);
 	}
 
+	onClick() {
+		appStore.dispatch({
+			type: Action.SET_SELECTED_EMPLOYEE,
+			payload: this.props.employee
+		});
+	}
+
 	render() {
-		const abc = <div>
+		const primaryText = <div style={{paddingLeft: "10px", paddingTop:"5px"}}> 
 			<div className="row">
-				<div className="col-xs-10"></div>
-				<div className="col-xs-2"></div>
+				<div className="col-xs-9">
+					{this.props.employee.firstName + " " + this.props.employee.lastName}
+				</div>
+				<div className="col-xs-3" style={{textAlign: 'center'}}>
+					<span>{moment(this.props.employee.hireDate).format("DD MMM YYYY")}</span>
+				</div>
 			</div>
-		</div>
+		</div>;
+		const secondaryText = <div style={{paddingLeft: "10px"}}> 
+			<div className="row">
+				<div className="col-xs-9">
+					<div className="row">
+						<div className="col-xs-12">
+							{this.props.employee.email}
+						</div>
+						<div className="col-xs-12">
+							{ this.props.employee.phone + ", " + this.props.employee.phone}
+						</div>
+					</div>
+				</div>
+				<div className="col-xs-3" style={{textAlign: 'center'}}>					
+					<RadioButtonCheckedIcon color={'#3f51b5'}></RadioButtonCheckedIcon>
+				</div>
+			</div>
+		</div>;
 		return (
 			<ListItem 
-				leftAvatar={<Avatar src="images/ok-128.jpg" />}
-				primaryText={this.props.firstName + "" + this.props.lastName}
-				secondaryText={this.props.description}>
+				leftAvatar={<Avatar src="images/ok-128.jpg" size={60}/>}
+				primaryText={primaryText}
+				secondaryText={secondaryText}
+				secondaryTextLines={2}
+				onTouchTap={this.onClick}>
 			</ListItem>
 		)
 	}

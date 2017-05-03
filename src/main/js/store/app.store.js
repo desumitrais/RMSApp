@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { appReducer } from '../reducers/app.reducer';
-import { dummyEmployeesData } from '../dummy/dummy-employees';
 import { addEmployee, fetchEmployees } from '../actions/employee-list.action';
 
 const consoleMessages = store => next => action => {
@@ -12,9 +11,10 @@ const consoleMessages = store => next => action => {
 
     result = next(action);
 
-    let { employees } = store.getState();
+    let { employees, selectedEmployee } = store.getState();
     console.log(`
-        employees: ${employees}
+        employees: ${employees},
+        selectedEmployee: ${selectedEmployee}
     `)
     return result;
 }
@@ -25,7 +25,7 @@ const storeFactory = (initialState={}) => {
 
 const initialState = (localStorage['redux-store']) ?
     JSON.parse(localStorage(['redux-store'])) : 
-    {employees: dummyEmployeesData}
+    {employees: [], selectedEmployee:{}}
 
 
 const saveState = () => {

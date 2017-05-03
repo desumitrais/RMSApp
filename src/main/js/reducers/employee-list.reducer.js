@@ -5,12 +5,10 @@ export const employeesReducer = (state=[], action) => {
   let index;
   switch (action.type) {
     case Action.GET_EMPLOYEE :
-    debugger; 
-    let test;
-    for(let i=0; i<action.payload.length; i++){
-      test.push(employeeReducer(undefined, action))
-    }
-      return test
+      for(var i=0; i<action.payload.length;i++){
+        action.payload[i].selected=false;
+      }
+      return action.payload;
     case Action.ADD_EMPLOYEE :
       return [
         ...state,
@@ -53,4 +51,9 @@ export const fetcEmployeeReducer = (state=false, action) => {
     default:
       return state
   }
+}
+
+export const selectedEmployeeReducer = (state={}, action) => {
+  console.log(action.type === Action.SET_SELECTED_EMPLOYEE ? action.payload : state);
+   return action.type === Action.SET_SELECTED_EMPLOYEE ? action.payload : state;
 }
