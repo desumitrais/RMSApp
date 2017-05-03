@@ -8,6 +8,9 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import Checkbox from 'material-ui/Checkbox';
+import Edit from 'material-ui/svg-icons/editor/mode-edit';
+import Delete from 'material-ui/svg-icons/action/delete';
 import moment from 'moment';
 import appStore  from '../../../../../store/app.store';
 import { fetchFamilyList } from '../../../../../actions/family-list.action';
@@ -40,17 +43,26 @@ class FamilyListComponent extends React.Component {
                         <TableHeaderColumn>DOB</TableHeaderColumn>
                         <TableHeaderColumn>Type</TableHeaderColumn>
                         <TableHeaderColumn>Active</TableHeaderColumn>
+                        <TableHeaderColumn></TableHeaderColumn>
                       </TableRow>
                     </TableHeader>
                 <TableBody displayRowCheckbox={false}>
                 {
                   this.props.families.map((family,i) =>
-                      <TableRow>
+                      <TableRow key={i}>
                         <TableRowColumn>{family.firstName + " " + family.lastName}</TableRowColumn>
                         <TableRowColumn>{family.genderStr}</TableRowColumn>
                         <TableRowColumn>{moment(family.dob).format("MMM DD, YYYY")}</TableRowColumn>
                         <TableRowColumn>{family.familyTypeStr}</TableRowColumn>
-                        <TableRowColumn>{family.recordStatusID}</TableRowColumn>
+                        <TableRowColumn>
+                          <Checkbox
+                             checked={family.recordStatusID}
+                          />
+                        </TableRowColumn>
+                        <TableRowColumn>
+                          <Edit />
+                          <Delete />
+                        </TableRowColumn>
                       </TableRow>   
                   )
                 }

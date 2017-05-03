@@ -11,7 +11,6 @@ export const clearError = (index) => ({
 });
 
 export const fetchFamilyList = (employeeGuid) => dispatch => {
-    debugger;
     let url = `http://localhost:8080/api/familyws/${employeeGuid}`;
     fetch(url)
     .then(response => response.json())
