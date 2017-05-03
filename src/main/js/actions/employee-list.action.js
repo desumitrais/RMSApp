@@ -75,7 +75,7 @@ export const clearError = (index) => ({
 });
 
 export const fetchEmployees = () => dispatch => {
-    let url = 'http://localhost:8080/api/employeews/';
+    let url = 'http://localhost:8080/api/employeews/search';
     fetch(url)
     .then(response => response.json())
     .then(employees => {

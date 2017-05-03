@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
+import moment from 'moment';
 
 class EmployeeDetailComponent extends React.Component {
 
@@ -21,7 +22,7 @@ class EmployeeDetailComponent extends React.Component {
                             <Divider  />
                             <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Gender</div>} secondaryText={<div style={{fontSize:'16px'}}>{this.props.selectedEmployee.genderStr}</div>}/>
                             <Divider />
-                            <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Date of Birth</div>} secondaryText={<div style={{fontSize:'16px'}}>{this.props.selectedEmployee.dob}</div>}/>
+                            <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Date of Birth</div>} secondaryText={<div style={{fontSize:'16px'}}>{moment(this.props.selectedEmployee.dob).format("DD MMM YYYY")}</div>}/>
                             <Divider  />
                             <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Nationality</div>} secondaryText={<div style={{fontSize:'16px'}}>{this.props.selectedEmployee.nationalityStr}</div>}/>
                             <Divider />
@@ -37,9 +38,9 @@ class EmployeeDetailComponent extends React.Component {
                             <Divider />
                             <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Status</div>} secondaryText={<div style={{fontSize:'16px'}}>{this.props.selectedEmployee.statusStr}</div>}/>
                             <Divider  />
-                            <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Suspend Date</div>} secondaryText={<div style={{fontSize:'16px'}}>{this.props.selectedEmployee.suspendDate}</div>}/>
+                            <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Suspend Date</div>} secondaryText={<div style={{fontSize:'16px'}}>{moment(this.props.selectedEmployee.suspendDate).format("DD MMM YYYY")}</div>}/>
                             <Divider />
-                            <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Hired Date</div>} secondaryText={<div style={{fontSize:'16px'}}>{this.props.selectedEmployee.hireDate}</div>}/>
+                            <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Hired Date</div>} secondaryText={<div style={{fontSize:'16px'}}>{moment(this.props.selectedEmployee.hireDate).format("DD MMM YYYY")}</div>}/>
                             <Divider  />
                             <ListItem  disabled={true} primaryText={<div style={{fontSize:'12px'}}>Grade</div>} secondaryText={<div style={{fontSize:'16px'}}>{this.props.selectedEmployee.gradeStr}</div>}/>
                             <Divider />
