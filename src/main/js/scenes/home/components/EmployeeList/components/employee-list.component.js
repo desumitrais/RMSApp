@@ -8,6 +8,9 @@ import {white} from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {List} from 'material-ui/List';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import { Link } from 'react-router-dom';
 
 import Employee from './Employee';
 
@@ -49,6 +52,11 @@ class EmployeeListComponent extends React.Component {
     }
 
 	render() {
+        const floatingButtonStyle = {
+                position: 'absolute',
+                top: '50%',
+                right: '10%',
+        }
 		return (
 			<div>
                 <div className="panel-list-header">
@@ -65,6 +73,9 @@ class EmployeeListComponent extends React.Component {
                 </div>
                 <div className="panel-list-container">
                     <List>
+                         <FloatingActionButton secondary={true} style={floatingButtonStyle} containerElement={<Link to="/home/detail"/>}>
+                            <ContentAdd />
+                         </FloatingActionButton>
                         { this.props.employees && this.props.employees.length>0 ? 
                             this.props.employees.map((employee,i) =>
                                     <Employee key={i} 

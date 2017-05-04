@@ -9,18 +9,7 @@ export const employeeReducer = (state, action) => {
                 lastName : payload.lastName,
                 genderID : payload.genderID,
                 dob : payload.dob,
-                familytypeid: familytypeid,
-                selected: false
-            }
-        case Action.SET_SELECTED_FAMILY:
-            return {
-                iid: payload.id,
-                firstName : payload.firstName,
-                lastName : payload.lastName,
-                genderID : payload.genderID,
-                dob : payload.dob,
-                familytypeid: familytypeid,
-                selected: true
+                familytypeid: payload.familytypeid
             }
         default : 
             return state

@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import HomeScreen from '../../home';
 
 const mapStateToProps = (state) => ( {
-    selectedEmployee: state.selectedEmployee
+    selectedEmployee: state.selectedEmployee,
+    selectedEmployeeTab: state.selectedEmployeeTab
 })
 
 const mapDispatchToProps = {

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { PropTypes } from 'prop-types';
 import {
   Table,
   TableBody,
@@ -56,7 +57,7 @@ class FamilyListComponent extends React.Component {
                         <TableRowColumn>{family.familyTypeStr}</TableRowColumn>
                         <TableRowColumn>
                           <Checkbox
-                             checked={family.recordStatusID}
+                             checked={family.recordStatusID === 1? true : false}
                           />
                         </TableRowColumn>
                         <TableRowColumn>
@@ -77,6 +78,10 @@ class FamilyListComponent extends React.Component {
 			</div>
 		)
 	}
+}
+
+FamilyListComponent.defaultProps = { 
+    families: []
 }
 
 export default FamilyListComponent;

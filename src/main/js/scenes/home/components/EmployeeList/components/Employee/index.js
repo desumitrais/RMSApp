@@ -9,6 +9,7 @@ import RadioButtonCheckedIcon from 'material-ui/svg-icons/toggle/radio-button-ch
 import moment from 'moment';
 import appStore from '../../../../../../store/app.store';
 import { Action } from '../../../../../../constants/employee.constant';
+import { withRouter } from 'react-router-dom';
 
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
@@ -29,6 +30,11 @@ class Employee extends React.Component {
 			type: Action.SET_SELECTED_EMPLOYEE,
 			payload: this.props.employee
 		});
+		appStore.dispatch({
+            type: Action.SET_SELECTED_TAB,
+            payload: 'detail'
+        })
+		this.props.history.push('/home/detail');
 	}
 
 	render() {
@@ -71,4 +77,4 @@ class Employee extends React.Component {
 	}
 }
 
-export default Employee;
+export default withRouter(Employee);

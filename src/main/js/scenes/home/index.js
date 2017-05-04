@@ -23,6 +23,7 @@ import FamilyListContainer from '../home/components/FamilyList/containers/family
 import { Route, Link } from 'react-router-dom';
 import appStore  from '../../store/app.store';
 import { fetchEmployees } from '../../actions/employee-list.action';
+import { Action } from '../../constants/employee.constant';
 
 class HomeScreen extends React.Component {
 
@@ -31,6 +32,13 @@ class HomeScreen extends React.Component {
 		this.state = {employees: [], attributes: [], pageSize: 2, links: {}};
         appStore.dispatch(fetchEmployees());
 	}   
+
+    handleChange = (value) => {
+        appStore.dispatch({
+            type: Action.SET_SELECTED_TAB,
+            payload: value
+        })
+    }
 
 	render() {
 		return (
@@ -51,17 +59,17 @@ class HomeScreen extends React.Component {
                             <EmployeeListContainer />
                         </div>
                         <div className="col-sm-8">
-                            <Tabs tabItemContainerStyle={{backgroundColor:"#5c6bc0"}} inkBarStyle={{backgroundColor:"#880e4f"}} >
-                                <Tab icon={<Person/>}>
-                                    <EmployeeDetailContainer/>
+                            <Tabs tabItemContainerStyle={{backgroundColor:"#5c6bc0"}} inkBarStyle={{backgroundColor:"#880e4f"}} value={this.props.selectedEmployeeTab} onChange={this.handleChange}>
+                                <Tab value="detail" icon={<Person/>} containerElement={<Link to="/home/detail"/>}>
+                                    <Route path="/home/detail" component={EmployeeDetailContainer}/>
                                 </Tab>
-                                <Tab icon={<History />} />
-                                <Tab icon={<Assignment />} />
-                                <Tab icon={<Family />} containerElement={<Link to="/home/family"/>}>
+                                <Tab value="history" icon={<History />}/>
+                                <Tab value="assignment"icon={<Assignment />}/>
+                                <Tab value="family"icon={<Family />} containerElement={<Link to="/home/family"/>}>
                                     <Route path="/home/family" component={FamilyListContainer}/>
                                 </Tab>
-                                <Tab icon={<Home />} />
-                                <Tab icon={<Place />} />
+                                <Tab value="home" icon={<Home />}/>
+                                <Tab value="place" icon={<Place />}/>
                             </Tabs>
                         </div>
                     </div>
