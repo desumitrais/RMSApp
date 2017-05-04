@@ -47,6 +47,9 @@ public class Employee extends CommonEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee", cascade = CascadeType.ALL)
     public Set<Family> families;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee", cascade = CascadeType.ALL)
+    public Set<GradeHistory> gradeHistories;
+
     @Transient
     private String     genderStr;
     @Transient
@@ -281,5 +284,13 @@ public class Employee extends CommonEntity implements Serializable {
 
     public void setFamilies(Set<Family> families) {
         this.families = families;
+    }
+
+    public Set<GradeHistory> getGradeHistories() {
+        return gradeHistories;
+    }
+
+    public void setGradeHistories(Set<GradeHistory> gradeHistories) {
+        this.gradeHistories = gradeHistories;
     }
 }

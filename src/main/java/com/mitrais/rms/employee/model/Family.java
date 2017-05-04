@@ -14,17 +14,17 @@ import java.util.Date;
 @Table(name = "family")
 public class Family extends CommonEntity implements Serializable {
 
-    public static final int FAMILY_TYPE_HUSBAND = 1;
-    public static final int FAMILY_TYPE_WIFE    = 2;
-    public static final int FAMILY_TYPE_SON     = 3;
-    public static final int FAMILY_TYPE_DAUGHTER  = 4;
+    public static final int FAMILY_TYPE_HUSBAND  = 1;
+    public static final int FAMILY_TYPE_WIFE     = 2;
+    public static final int FAMILY_TYPE_SON      = 3;
+    public static final int FAMILY_TYPE_DAUGHTER = 4;
     public static final int FAMILY_TYPE_BROTHER  = 5;
-    public static final int FAMILY_TYPE_SISTER  = 6;
+    public static final int FAMILY_TYPE_SISTER   = 6;
 
     @Id
     private String          id;
     @Column(name = "employeeguid", updatable = false, insertable = false)
-    private String employeeGUID;
+    private String          employeeGUID;
     @Column(name = "firstname")
     private String          firstName;
     @Column(name = "lastname")
@@ -61,7 +61,7 @@ public class Family extends CommonEntity implements Serializable {
     }
 
     @Transient
-    private String          familyTypeStr;
+    private String familyTypeStr;
 
     public String getId() {
         return id;

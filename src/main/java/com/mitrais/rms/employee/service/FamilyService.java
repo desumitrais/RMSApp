@@ -9,4 +9,10 @@ import java.util.List;
  */
 public interface FamilyService {
     List<Family> searchByEmployee(String employeeGUID);
+
+    String saveFamily(Family employee);
+
+    Family updateFamily(Family employee);
+
+    void deleteFamily(String id);
 }
