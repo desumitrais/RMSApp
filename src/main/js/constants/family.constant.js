@@ -10,3 +10,10 @@ export const Action = {
     ADD_ERROR: 'ADD_ERROR',
     CLEAR_ERROR: 'CLEAR_ERROR'
 }
+
+export const FamilyTypes = [
+    { lookupText: 'Wife', lookupValue:1 },
+    { lookupText: 'Husband', lookupValue:2 },
+    { lookupText: 'Son', lookupValue:3 },
+    { lookupText: 'Daughter', lookupValue:4 }
+]

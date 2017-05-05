@@ -10,6 +10,14 @@ export const clearError = (index) => ({
     payload: index
 });
 
+export const setEditMode = (familyId, isEdit) => ({
+    type: Action.SET_EDIT_MODE_FAMILY,
+    payload: {
+        id: familyId,
+        isEdit: isEdit
+    }
+});
+
 export const fetchFamilyList = (employeeGuid) => dispatch => {
     let url = `http://localhost:8080/api/familyws/${employeeGuid}`;
     fetch(url)
@@ -28,4 +36,8 @@ export const fetchFamilyList = (employeeGuid) => dispatch => {
         })
 
     })
+}
+
+export const updateFamily = ( ) => dispatch => {
+    let url = `http://localhost:8080/api/familyws/${employeeGuid}`;
 }

@@ -9,7 +9,18 @@ export const employeeReducer = (state, action) => {
                 lastName : payload.lastName,
                 genderID : payload.genderID,
                 dob : payload.dob,
-                familytypeid: payload.familytypeid
+                familytypeid: payload.familytypeid,
+                editMode: false
+            }
+        case Action.SET_EDIT_MODE_FAMILY:
+            return {
+                iid: payload.id,
+                firstName : payload.firstName,
+                lastName : payload.lastName,
+                genderID : payload.genderID,
+                dob : payload.dob,
+                familytypeid: payload.familytypeid,
+                editMode: true
             }
         default : 
             return state
