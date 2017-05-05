@@ -16,13 +16,15 @@ import Cancel from 'material-ui/svg-icons/content/clear';
 import Save from 'material-ui/svg-icons/action/done';
 import moment from 'moment';
 import appStore  from '../../../../../store/app.store';
-import { fetchFamilyList, setEditMode, updateFamily } from '../../../../../actions/family-list.action';
+import { fetchFamilyList, setEditMode, updateFamily, deleteFamily, addNewFamilyRow, deleteUnsavedFamilyRow } from '../../../../../actions/family-list.action';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import DatePicker from 'material-ui/DatePicker';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import { FamilyTypes } from '../../../../../constants/family.constant';
 
 class FamilyListComponent extends React.Component {
@@ -46,12 +48,32 @@ class FamilyListComponent extends React.Component {
      appStore.dispatch(setEditMode(familyId, true));
   }
 
-  handleCancel(familyId) {
-     appStore.dispatch(setEditMode(familyId, false));
+  handleDelete(familyId) {
+     appStore.dispatch(deleteFamily(this.props.selectedEmployee.id, familyId));
   }
 
-  handleSave() {
-    appStore.dispatch(updateFamily());
+  handleCancel(familyId,isSaved) {
+     if(isSaved){
+      appStore.dispatch(setEditMode(familyId, false));
+     }else{
+       appStore.dispatch(deleteUnsavedFamilyRow(familyId));
+     }
+  }
+  
+  validate(family) {
+    if(family.firstName.trim() == '' && family.lastName.trim() == '') {
+      return false;
+    }
+
+    return true;
+  } 
+
+  handleSave(family) {
+      appStore.dispatch(updateFamily(family));
+  }
+
+  handleCreateNewRow() {
+    appStore.dispatch(addNewFamilyRow());
   }
 
   changeTextField(object,value,i,name) {
@@ -92,7 +114,7 @@ class FamilyListComponent extends React.Component {
             <IconButton value={family.id} onClick={() =>this.handleEdit(family.id)}>
                 <Edit/>
             </IconButton>
-            <IconButton value={family.id} onClick={() =>this.handleEdit(family.id)}>
+            <IconButton value={family.id} onClick={() =>this.handleDelete(family.id)}>
                 <Delete/>
             </IconButton>
           </TableRowColumn>
@@ -107,8 +129,8 @@ class FamilyListComponent extends React.Component {
     const editMode = (family,i) => 
       <TableRow key={i}>
           <TableRowColumn style={{width:'300px'}}>
-              <TextField hintText="First Name"style={{width:'140px'}} value={family.firstName} onChange={(object, value)=>  this.changeTextField(object,value,i,"firstName")} style={{width:'140px'}}/>
-              <TextField hintText="Last Name" name="lastName" id="family_lastName" ref="lastName" value={family.lastName} onChange={(object, value)=>  this.changeTextField(object,value,i,"lastName")} style={{width:'140px'}}/>
+              <TextField hintText="First Name" errorText={family.errorText && family.errorText.firstName ? family.errorText.firstName : '' } style={{width:'140px'}} value={family.firstName} onChange={(object, value)=>  this.changeTextField(object,value,i,"firstName")} style={{width:'140px'}}/>
+              <TextField hintText="Last Name" errorText={family.errorText && family.errorText.firstName ? family.errorText.lastName : '' }  name="lastName" id="family_lastName" ref="lastName" value={family.lastName} onChange={(object, value)=>  this.changeTextField(object,value,i,"lastName")} style={{width:'140px'}}/>
           </TableRowColumn>
           <TableRowColumn >
             <SelectField hintText= "Gender"
@@ -139,17 +161,26 @@ class FamilyListComponent extends React.Component {
               /> 
           </TableRowColumn>
           <TableRowColumn>
-              <IconButton value={family.id} onClick={() =>this.handleCancel(family.id)}>
+              <IconButton value={family.id} onClick={() =>this.handleSave(family)}>
                   <Save/>
               </IconButton>
-              <IconButton value={family.id} onClick={() =>this.handleCancel(family.id)}>
+              <IconButton value={family.id} onClick={() =>this.handleCancel(family.id, family.saved)}>
                   <Cancel/>
               </IconButton>
           </TableRowColumn>
       </TableRow>
+
+    const floatingButtonStyle = {
+        position: 'absolute',
+        bottom: '0',
+        right: '10%',
+    }
     
 		return (
 			<div>
+          <FloatingActionButton secondary={true} style={floatingButtonStyle} onClick={this.handleCreateNewRow}>
+            <ContentAdd />
+          </FloatingActionButton>
           { this.state.families && this.state.families.length>0 ? (
                 <Table  selectable={false}>
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>

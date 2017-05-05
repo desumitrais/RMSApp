@@ -18,6 +18,15 @@ export const setEditMode = (familyId, isEdit) => ({
     }
 });
 
+export const addNewFamilyRow = () => ({
+    type: Action.ADD_FAMILY_ROW
+});
+
+export const deleteUnsavedFamilyRow = (familyId) => ({
+    type: Action.DELETE_FAMILY_ROW,
+    payload: familyId
+});
+
 export const fetchFamilyList = (employeeGuid) => dispatch => {
     let url = `http://localhost:8080/api/familyws/${employeeGuid}`;
     fetch(url)
@@ -38,6 +47,38 @@ export const fetchFamilyList = (employeeGuid) => dispatch => {
     })
 }
 
-export const updateFamily = ( ) => dispatch => {
-    let url = `http://localhost:8080/api/familyws/${employeeGuid}`;
+export const updateFamily = (family) => dispatch => {
+    let url = `http://localhost:8080/api/familyws/`;
+    fetch(url, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(family)
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(setEditMode(response.data.id, false));
+        dispatch(fetchFamilyList(response.data.employeeGUID));
+    })
+    .catch(error => {
+        dispatch(addError(error.message))
+    })
+}
+
+export const deleteFamily = (employeeGUID, familyId) => dispatch => {
+    debugger;
+    let url = `http://localhost:8080/api/familyws/${familyId}`;
+    fetch(url, {
+        method: 'delete'
+    })
+    .then(response => response.json())
+    .then(response => {
+        debugger;
+        dispatch(fetchFamilyList(employeeGUID));
+    })
+    .catch(error => {
+        dispatch(addError(error.message))
+    })
 }

@@ -66,7 +66,9 @@ class HomeScreen extends React.Component {
                                 <Tab value="history" icon={<History />}/>
                                 <Tab value="assignment"icon={<Assignment />}/>
                                 <Tab value="family"icon={<Family />} containerElement={<Link to="/home/family"/>}>
-                                    <Route path="/home/family" component={FamilyListContainer}/>
+                                    <div className="panel-list-container">
+                                        <Route path="/home/family" component={FamilyListContainer}/>
+                                    </div>
                                 </Tab>
                                 <Tab value="home" icon={<Home />}/>
                                 <Tab value="place" icon={<Place />}/>

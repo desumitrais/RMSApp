@@ -8,12 +8,14 @@ export const Action = {
     FETCH_FAMILY : 'FETCH_FAMILY',
     CANCEL_FETCH_FAMILY : 'CANCEL_FETCH_FAMILY',
     ADD_ERROR: 'ADD_ERROR',
-    CLEAR_ERROR: 'CLEAR_ERROR'
+    CLEAR_ERROR: 'CLEAR_ERROR',
+    ADD_FAMILY_ROW: 'ADD_FAMILY_ROW',
+    DELETE_FAMILY_ROW: 'DELETE_FAMILY_ROW',
 }
 
 export const FamilyTypes = [
-    { lookupText: 'Wife', lookupValue:1 },
-    { lookupText: 'Husband', lookupValue:2 },
+    { lookupText: 'Husband', lookupValue:1 },
+    { lookupText: 'Wife', lookupValue:2 },
     { lookupText: 'Son', lookupValue:3 },
     { lookupText: 'Daughter', lookupValue:4 }
 ]
