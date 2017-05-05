@@ -1,9 +1,11 @@
 package com.mitrais.rms.employee.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import com.mitrais.rms.common.LookupHelper;
 import com.mitrais.rms.common.RMSConstantsIntf;
 import com.mitrais.rms.common.dao.LookupRepository;
 import com.mitrais.rms.common.model.Lookup;
@@ -28,19 +30,17 @@ public class FamilyServiceImpl implements FamilyService {
     @Override
     public List<Family> searchByEmployee(String employeeGUID) {
         List<Family> families = familyRepo.searchByEmployee(employeeGUID);
-        List<Lookup> gender = lookupRepo.findByLookupName(RMSConstantsIntf.LookupName.GENDER_ID);
-        List<Lookup> familyType = lookupRepo.findByLookupName(RMSConstantsIntf.LookupName.FAMILY_TYPE_ID);
+        List<String> lookupnames = new ArrayList<>();
+        lookupnames.add(RMSConstantsIntf.LookupName.GENDER_ID);
+        lookupnames.add(RMSConstantsIntf.LookupName.FAMILY_TYPE_ID);
+
+        List<Lookup> lookups = lookupRepo.findByLookupNameIn(lookupnames);
 
         for (Family family : families) {
-            Lookup genderName = gender.stream()
-                    .filter(lookup -> lookup.getLookupCode().equalsIgnoreCase(family.getGenderID())).findFirst()
-                    .orElse(new Lookup());
-            family.setGenderStr(genderName.getLookupText());
-
-            Lookup familyTypeName = familyType.stream()
-                    .filter(lookup -> lookup.getLookupValue() == family.getFamilyTypeID()).findFirst()
-                    .orElse(new Lookup());
-            family.setFamilyTypeStr(familyTypeName.getLookupText());
+            family.setGenderStr(
+                    LookupHelper.getTextOnLookup(lookups, RMSConstantsIntf.LookupName.GENDER_ID, family.getGenderID()));
+            family.setFamilyTypeStr(LookupHelper.getValueOnLookup(lookups, RMSConstantsIntf.LookupName.FAMILY_TYPE_ID,
+                    family.getFamilyTypeID()));
         }
 
         return families;
@@ -61,15 +61,32 @@ public class FamilyServiceImpl implements FamilyService {
             oriFamily.setFirstName(family.getFirstName());
             oriFamily.setLastName(family.getLastName());
             oriFamily.setGenderID(family.getGenderID());
+            oriFamily.setFamilyTypeID(family.getFamilyTypeID());
             oriFamily.setDob(family.getDob());
+            oriFamily.setRecordStatusID(family.getRecordStatusID());
 
             familyRepo.save(oriFamily);
+
+            setupFamilyLookup(oriFamily);
 
             return oriFamily;
 
         } else {
             return null;
         }
+    }
+
+    private void setupFamilyLookup(Family oriFamily) {
+        List<String> lookupnames = new ArrayList<>();
+        lookupnames.add(RMSConstantsIntf.LookupName.GENDER_ID);
+        lookupnames.add(RMSConstantsIntf.LookupName.FAMILY_TYPE_ID);
+
+        List<Lookup> lookups = lookupRepo.findByLookupNameIn(lookupnames);
+
+        oriFamily.setGenderStr(
+                LookupHelper.getTextOnLookup(lookups, RMSConstantsIntf.LookupName.GENDER_ID, oriFamily.getGenderID()));
+        oriFamily.setFamilyTypeStr(LookupHelper.getValueOnLookup(lookups, RMSConstantsIntf.LookupName.FAMILY_TYPE_ID,
+                oriFamily.getFamilyTypeID()));
     }
 
     @Override

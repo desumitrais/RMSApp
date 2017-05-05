@@ -1,8 +1,11 @@
 package com.mitrais.rms.employee.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.mitrais.rms.common.LookupHelper;
+import com.mitrais.rms.common.model.Lookup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,11 @@ public class GradeHistoryServiceImpl implements GradeHistoryService {
     @Override
     public List<GradeHistory> searchByEmployee(String employeeGUID) {
         List<GradeHistory> gradeHistories = gradeHistoryRepo.searchByEmployee(employeeGUID);
+        List<Lookup> lookups = lookupRepo.findByLookupName(RMSConstantsIntf.LookupName.GRADE_ID);
+
+        for (GradeHistory gradeHistory : gradeHistories) {
+            gradeHistory.setGradeStr(LookupHelper.getTextOnLookup(lookups, RMSConstantsIntf.LookupName.GRADE_ID, gradeHistory.getGradeID()));
+        }
         return gradeHistories;
     }
 

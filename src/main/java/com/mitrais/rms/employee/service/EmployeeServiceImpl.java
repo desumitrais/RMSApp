@@ -29,10 +29,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> findAllEmployee(Pageable pageable) {
-        List<Employee> employees = null;
+        List<Employee> employees = new ArrayList<>();
 
-        employees = pageable != null ? (List<Employee>) employeeDao.findAll(pageable)
-                : (List<Employee>) employeeDao.findAll();
+        if (pageable != null) {
+            employeeDao.findAll(pageable).forEach(employees::add);
+        } else {
+            employeeDao.findAll().forEach(employees::add);
+        }
 
         return employees;
     }
@@ -46,24 +49,30 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> searchEmployee(SearchParameter searchParameter) {
         List<Employee> employees = employeeDao.searchEmployee(searchParameter);
         List<String> lookupnames = new ArrayList<>();
-        lookupnames.add("genderid");
-        lookupnames.add("nationalityid");
-        lookupnames.add("maritalstatusid");
-        lookupnames.add("statusid");
-        lookupnames.add("subdivisionid");
-        lookupnames.add("divisionid");
-        lookupnames.add("gradeid");
+        lookupnames.add(RMSConstantsIntf.LookupName.GENDER_ID);
+        lookupnames.add(RMSConstantsIntf.LookupName.NATIONALITY_ID);
+        lookupnames.add(RMSConstantsIntf.LookupName.MARITAL_STATUS_ID);
+        lookupnames.add(RMSConstantsIntf.LookupName.STATUS_ID);
+        lookupnames.add(RMSConstantsIntf.LookupName.SUBDIVISION_ID);
+        lookupnames.add(RMSConstantsIntf.LookupName.DIVISION_ID);
+        lookupnames.add(RMSConstantsIntf.LookupName.GRADE_ID);
 
         List<Lookup> lookups = lookupRepo.findByLookupNameIn(lookupnames);
 
         for (Employee employee : employees) {
-            employee.setGenderStr(getTextOnLookup(lookups, "genderid", employee.getGenderID()));
-            employee.setNationalityStr(getTextOnLookup(lookups, "nationalityid", employee.getNationalityID()));
-            employee.setMaritalStatusStr(getTextOnLookup(lookups, "maritalstatusid", employee.getMaritalStatusID()));
-            employee.setStatusStr(getTextOnLookup(lookups, "statusid", employee.getStatusID()));
-            employee.setSubDivisionStr(getTextOnLookup(lookups, "subdivisionid", employee.getSubDivisionID()));
-            employee.setDivisionStr(getTextOnLookup(lookups, "divisionid", employee.getDivisionID()));
-            employee.setGradeStr(getTextOnLookup(lookups, "gradeid", employee.getGradeID()));
+            employee.setGenderStr(
+                    getTextOnLookup(lookups, RMSConstantsIntf.LookupName.GENDER_ID, employee.getGenderID()));
+            employee.setNationalityStr(
+                    getTextOnLookup(lookups, RMSConstantsIntf.LookupName.NATIONALITY_ID, employee.getNationalityID()));
+            employee.setMaritalStatusStr(getTextOnLookup(lookups, RMSConstantsIntf.LookupName.MARITAL_STATUS_ID,
+                    employee.getMaritalStatusID()));
+            employee.setStatusStr(
+                    getTextOnLookup(lookups, RMSConstantsIntf.LookupName.STATUS_ID, employee.getStatusID()));
+            employee.setSubDivisionStr(
+                    getTextOnLookup(lookups, RMSConstantsIntf.LookupName.SUBDIVISION_ID, employee.getSubDivisionID()));
+            employee.setDivisionStr(
+                    getTextOnLookup(lookups, RMSConstantsIntf.LookupName.DIVISION_ID, employee.getDivisionID()));
+            employee.setGradeStr(getTextOnLookup(lookups, RMSConstantsIntf.LookupName.GRADE_ID, employee.getGradeID()));
 
             employee.setFamilies(null);
             employee.setGradeHistories(null);
