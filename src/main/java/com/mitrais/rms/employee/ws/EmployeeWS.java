@@ -25,16 +25,11 @@ public class EmployeeWS {
     EmployeeService employeeService;
 
     @GetMapping("/")
-    public ResponseREST getAllEmployee(@PageableDefault(size = 20, page = 0) Pageable pageable) {
-        Iterable<Employee> employees = employeeService.findAllEmployee(pageable);
-        List<Employee> listEmployee = null;
-
-        if(employees != null) {
-            listEmployee = StreamSupport.stream(employees.spliterator(), false).collect(Collectors.toList());
-        }
+    public ResponseREST getAllEmployee(Pageable pageable) {
+        List<Employee> employees = employeeService.findAllEmployee(pageable);
 
         ResponseREST response = new ResponseREST();
-        response.setData(listEmployee);
+        response.setData(employees);
         response.setStatus(ResponseREST.SUCCESS);
         return response;
     }

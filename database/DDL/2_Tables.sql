@@ -52,3 +52,18 @@ create table family (
     recordstatusid smallint NOT NULL DEFAULT 1,
     CONSTRAINT pk_family PRIMARY KEY (id)
 );
+
+create table gradehistory (
+    id character(36) NOT NULL,
+    employeeguid character(36) NOT NULL,
+    ds character varying(5),
+    gradeID character varying(3),
+    startDate timestamp without time zone,
+    endDate timestamp without time zone,
+    createdby character(36) NOT NULL,
+    createddate timestamp without time zone NOT NULL,
+    updatedby character(36) NOT NULL,
+    updateddate timestamp without time zone NOT NULL,
+    recordstatusid smallint NOT NULL DEFAULT 1,
+    CONSTRAINT pk_gradehistory PRIMARY KEY (id)
+);

@@ -25,11 +25,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     EmployeeRepository employeeDao;
 
     @Autowired
-    LookupRepository lookupRepo;
+    LookupRepository   lookupRepo;
 
     @Override
-    public Iterable<Employee> findAllEmployee(Pageable pageable) {
-        return employeeDao.findAll(pageable);
+    public List<Employee> findAllEmployee(Pageable pageable) {
+        List<Employee> employees = null;
+
+        employees = pageable != null ? (List<Employee>) employeeDao.findAll(pageable)
+                : (List<Employee>) employeeDao.findAll();
+
+        return employees;
     }
 
     @Override
@@ -61,18 +66,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setGradeStr(getTextOnLookup(lookups, "gradeid", employee.getGradeID()));
 
             employee.setFamilies(null);
+            employee.setGradeHistories(null);
         }
 
         return employees;
     }
 
     private String getTextOnLookup(List<Lookup> lookups, String lookupName, String lookupCode) {
-        Lookup selectedLookup = lookups.stream()
-                .filter(lookup -> lookup.getLookupName().equalsIgnoreCase(lookupName))
-                .filter(lookup -> lookup.getLookupCode().equalsIgnoreCase(lookupCode)).findFirst()
-                .orElse(new Lookup());
+        Lookup selectedLookup = lookups.stream().filter(lookup -> lookup.getLookupName().equalsIgnoreCase(lookupName))
+                .filter(lookup -> lookup.getLookupCode().equalsIgnoreCase(lookupCode)).findFirst().orElse(new Lookup());
 
-        if(selectedLookup != null) {
+        if (selectedLookup != null) {
             return selectedLookup.getLookupText();
         } else {
             return StringUtils.EMPTY;

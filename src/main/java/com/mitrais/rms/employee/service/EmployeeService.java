@@ -10,7 +10,7 @@ import java.util.List;
  * Created by made_sudarsana on 4/28/2017.
  */
 public interface EmployeeService {
-    Iterable<Employee> findAllEmployee(Pageable pageable);
+    List<Employee> findAllEmployee(Pageable pageable);
 
     Employee findByID(String employeeGUID);
 

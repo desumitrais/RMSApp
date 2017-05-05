@@ -2,14 +2,14 @@ package com.mitrais.rms.employee.ws;
 
 import java.util.List;
 
+import com.mitrais.rms.employee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import com.mitrais.rms.common.MessageByLocaleService;
 import com.mitrais.rms.common.model.ResponseREST;
 import com.mitrais.rms.employee.model.Family;
+import com.mitrais.rms.employee.service.EmployeeService;
 import com.mitrais.rms.employee.service.FamilyService;
 
 /**
@@ -19,7 +19,13 @@ import com.mitrais.rms.employee.service.FamilyService;
 @RequestMapping("/api/familyws")
 public class FamilyWS {
     @Autowired
-    private FamilyService familyService;
+    private FamilyService  familyService;
+
+    @Autowired
+    EmployeeService        employeeService;
+
+    @Autowired
+    MessageByLocaleService messageByLocaleService;
 
     @GetMapping("/{employeeGUID}")
     public ResponseREST getFamilyByID(@PathVariable("employeeGUID") String employeeGUID) {
@@ -30,5 +36,46 @@ public class FamilyWS {
         responseREST.setStatus(ResponseREST.SUCCESS);
 
         return responseREST;
+    }
+
+    @PostMapping("/")
+    public ResponseREST saveFamily(@RequestBody Family family) {
+        ResponseREST responseREST = new ResponseREST();
+
+        Employee employee = employeeService.findByID(family.getEmployeeGUID());
+
+        if (employee != null) {
+            family.setEmployee(employee);
+            String ID = familyService.saveFamily(family);
+
+            responseREST.setData(ID);
+            responseREST.setStatus(ResponseREST.SUCCESS);
+
+        } else {
+            responseREST.setData(null);
+            responseREST.setStatus(ResponseREST.FAILED);
+        }
+
+        return responseREST;
+    }
+
+    @PutMapping("/")
+    public ResponseREST updateEmployee(@RequestBody Family family) {
+        Family updateEmployee = familyService.updateFamily(family);
+
+        ResponseREST responseREST = new ResponseREST();
+        responseREST.setData(updateEmployee);
+        responseREST.setStatus(ResponseREST.SUCCESS);
+
+        return responseREST;
+    }
+
+    @DeleteMapping("/{familyGUID}")
+    public void deleteFamily(@PathVariable("familyGUID") String familyGUID) {
+        familyService.deleteFamily(familyGUID);
+
+        ResponseREST responseREST = new ResponseREST();
+        responseREST.setData(null);
+        responseREST.setStatus(ResponseREST.SUCCESS);
     }
 }
