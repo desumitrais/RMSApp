@@ -79,11 +79,12 @@ public class EmployeeWS {
     }
 
     @DeleteMapping("/{employeeGUID}")
-    public void deleteEmployee(@PathVariable("employeeGUID") String employeeGUID) {
+    public ResponseREST deleteEmployee(@PathVariable("employeeGUID") String employeeGUID) {
         employeeService.deleteEmployee(employeeGUID);
 
         ResponseREST responseREST = new ResponseREST();
         responseREST.setData(null);
         responseREST.setStatus(ResponseREST.SUCCESS);
+        return responseREST;
     }
 }

@@ -71,11 +71,12 @@ public class FamilyWS {
     }
 
     @DeleteMapping("/{familyGUID}")
-    public void deleteFamily(@PathVariable("familyGUID") String familyGUID) {
+    public ResponseREST deleteFamily(@PathVariable("familyGUID") String familyGUID) {
         familyService.deleteFamily(familyGUID);
 
         ResponseREST responseREST = new ResponseREST();
         responseREST.setData(null);
         responseREST.setStatus(ResponseREST.SUCCESS);
+        return responseREST;
     }
 }

@@ -73,11 +73,13 @@ public class GradeHistoryWS {
     }
 
     @DeleteMapping("/{gradeHistoryGUID}")
-    public void deleteGradeHistory(@PathVariable("gradeHistoryGUID") String gradeHistoryGUID) {
+    public ResponseREST deleteGradeHistory(@PathVariable("gradeHistoryGUID") String gradeHistoryGUID) {
         gradeHistoryService.deleteGradeHistory(gradeHistoryGUID);
 
         ResponseREST responseREST = new ResponseREST();
         responseREST.setData(null);
         responseREST.setStatus(ResponseREST.SUCCESS);
+
+        return responseREST;
     }
 }
