@@ -16,9 +16,9 @@ create table employee (
     dob timestamp without time zone,
     email character varying(100),
     createdby character(36),
-    createddate timestamp without time zone NOT NULL DEFAULT timezone('utc'::text, (('now'::text)::date)::timestamp with time zone),
+    createddate timestamp without time zone,
     updatedby character(36),
-    updateddate timestamp without time zone NOT NULL DEFAULT timezone('utc'::text, (('now'::text)::date)::timestamp with time zone),
+    updateddate timestamp without time zone,
     recordstatusid smallint NOT NULL DEFAULT 1,
     CONSTRAINT pk_patient PRIMARY KEY (id)
 );
@@ -30,9 +30,9 @@ create table lookup (
     lookupvalue integer,
     lookupcode character varying(50),
     createdby character(36),
-    createddate timestamp without time zone NOT NULL DEFAULT timezone('utc'::text, (('now'::text)::date)::timestamp with time zone),
+    createddate timestamp without time zone,
     updatedby character(36),
-    updateddate timestamp without time zone NOT NULL DEFAULT timezone('utc'::text, (('now'::text)::date)::timestamp with time zone),
+    updateddate timestamp without time zone,
     recordstatusid smallint NOT NULL DEFAULT 1,
     CONSTRAINT pk_lookup PRIMARY KEY (id)
 );
@@ -46,9 +46,9 @@ create table family (
     dob timestamp without time zone,
     familytypeid character varying(3),
     createdby character(36),
-    createddate timestamp without time zone NOT NULL DEFAULT timezone('utc'::text, (('now'::text)::date)::timestamp with time zone),
+    createddate timestamp without time zone,
     updatedby character(36),
-    updateddate timestamp without time zone NOT NULL DEFAULT timezone('utc'::text, (('now'::text)::date)::timestamp with time zone),
+    updateddate timestamp without time zone,
     recordstatusid smallint NOT NULL DEFAULT 1,
     CONSTRAINT pk_family PRIMARY KEY (id)
 );
@@ -61,9 +61,9 @@ create table gradehistory (
     startDate timestamp without time zone,
     endDate timestamp without time zone,
     createdby character(36),
-    createddate timestamp without time zone NOT NULL DEFAULT timezone('utc'::text, (('now'::text)::date)::timestamp with time zone),
+    createddate timestamp without time zone,
     updatedby character(36),
-    updateddate timestamp without time zone NOT NULL DEFAULT timezone('utc'::text, (('now'::text)::date)::timestamp with time zone),
+    updateddate timestamp without time zone,
     recordstatusid smallint NOT NULL DEFAULT 1,
     CONSTRAINT pk_gradehistory PRIMARY KEY (id)
 );
