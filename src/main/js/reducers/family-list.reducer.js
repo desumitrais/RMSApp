@@ -49,3 +49,14 @@ export const employeeFamiliesReducer = (state={}, action) => {
       return state
   }
 }
+
+export const fetcFamilyReducer = (state=false, action) => {
+  switch(action.type) {
+    case Action.GET_FAMILY :
+      return true
+    case Action.CANCEL_FETCH_FAMILY :
+      return false 
+    default:
+      return state
+  }
+}

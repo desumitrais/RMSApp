@@ -59,8 +59,7 @@ export const addNewFamily = (family) => dispatch => {
     })
     .then(response => response.json())
     .then(response => {
-        dispatch(setEditMode(response.data.id, false));
-        dispatch(fetchFamilyList(response.data.employeeGUID));
+        dispatch(fetchFamilyList(response.data));
     })
     .catch(error => {
         dispatch(addError(error.message))

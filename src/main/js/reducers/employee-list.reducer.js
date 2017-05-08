@@ -44,7 +44,7 @@ export const employeesReducer = (state=[], action) => {
 
 export const fetcEmployeeReducer = (state=false, action) => {
   switch(action.type) {
-    case Action.FETCH_EMPLOYEES :
+    case Action.GET_EMPLOYEE :
       return true
     case Action.CANCEL_FETCH_EMPLOYEES :
       return false 

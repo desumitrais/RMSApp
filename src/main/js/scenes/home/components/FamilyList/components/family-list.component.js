@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
+import { ValidatorForm, TextValidator, DateValidator, SelectValidator} from 'react-material-ui-form-validator';
 import {
   Table,
   TableBody,
@@ -31,13 +32,15 @@ class FamilyListComponent extends React.Component {
 
 	constructor(props) {
 		super(props);
-    this.state =  props.families && props.families.length >0 ? { families: props.families.map(obj => Object.assign({}, obj))} : { families: []};
+    this.state =  props.families && props.families.length >0 ? { families: props.families.map(obj => Object.assign({}, obj)), temporary: {selectedFamily: {}, isSaved: false}} : { families: [], temporary:{ selectedFamily: {}, isSaved: false }};
     this.changeTextField = this.changeTextField.bind(this);
     this.changeSelectField = this.changeSelectField.bind(this);
+    this.changeDateField = this.changeDateField.bind(this);
+    this.handleSave = this.handleSave.bind(this);
 	}
 
   componentWillReceiveProps(nextProps) {
-    this.setState( nextProps.families && nextProps.families.length >0 ? { families: nextProps.families.map(obj => Object.assign({}, obj))} : { families: []});
+    this.setState( nextProps.families && nextProps.families.length >0 ? { families: nextProps.families.map(obj => Object.assign({}, obj)), temporary: {selectedFamily: {}, isSaved: false}} : { families: [], temporary:{ selectedFamily: {}, isSaved: false }});
   }
 
   componentDidMount(nextProps) {
@@ -59,22 +62,27 @@ class FamilyListComponent extends React.Component {
        appStore.dispatch(deleteUnsavedFamilyRow(familyId));
      }
   }
-  
-  validate(family) {
-    if(family.firstName.trim() == '' && family.lastName.trim() == '') {
-      return false;
-    }
 
-    return true;
-  } 
 
-  handleSave(family, isSaved) {
+  handleSave() {
+    debugger;
+    let family = this.state.temporary.selectedFamily;
+    let isSaved = this.state.temporary.isSaved;
     if(isSaved){
       appStore.dispatch(updateFamily(family));
     }else{
       family.employeeGUID = this.props.selectedEmployee.id;
       appStore.dispatch(addNewFamily(family));
     }
+  }
+
+  handleSaveTemporary(family, isSaved) {
+    let temp = {
+      selectedFamily : family,
+      isSaved: isSaved
+    }
+    console.log(temp);
+    this.setState({temporary: temp});
   }
 
   handleCreateNewRow() {
@@ -134,30 +142,52 @@ class FamilyListComponent extends React.Component {
     const editMode = (family,i) => 
       <TableRow key={i}>
           <TableRowColumn style={{width:'300px'}}>
-              <TextField hintText="First Name" errorText={family.errorText && family.errorText.firstName ? family.errorText.firstName : '' } style={{width:'140px'}} value={family.firstName} onChange={(object, value)=>  this.changeTextField(object,value,i,"firstName")} style={{width:'140px'}}/>
-              <TextField hintText="Last Name" errorText={family.errorText && family.errorText.firstName ? family.errorText.lastName : '' }  name="lastName" id="family_lastName" ref="lastName" value={family.lastName} onChange={(object, value)=>  this.changeTextField(object,value,i,"lastName")} style={{width:'140px'}}/>
+              <TextValidator hintText="First Name"
+                              name="firstName" 
+                              validators={['required']}
+                              errorMessages={['first name is required']}
+                              value={family.firstName} onChange={(object, value)=>  this.changeTextField(object,value,i,"firstName")} 
+                              style={{width:'140px'}}/>
+              <TextValidator hintText="Last Name"  
+                              name="lastName" 
+                              validators={['required']}
+                              errorMessages={['last name is required']}
+                              value={family.lastName}
+                              onChange={(object, value)=>  this.changeTextField(object,value,i,"lastName")} 
+                              style={{width:'140px'}}/>
           </TableRowColumn>
           <TableRowColumn >
-            <SelectField hintText= "Gender"
-                         value={family.genderID}
-                         onChange={(event, index, value)=>  this.changeSelectField(event, index, value,i,"genderID")} style={{verticalAlign: 'bottom'}}>
+            <SelectValidator hintText= "Gender"
+                              name="gender" 
+                              validators={['required']}
+                              errorMessages={['gender is required']}
+                              value={family.genderID}
+                              onChange={(event, index, value)=>  this.changeSelectField(event, index, value,i,"genderID")} style={{verticalAlign: 'bottom'}}>
               <MenuItem value={"M"} primaryText="Male" />
               <MenuItem value={"F"} primaryText="Female" />
-            </SelectField>
+            </SelectValidator>
           </TableRowColumn>
           <TableRowColumn >
-            <DatePicker hintText="DOB" mode="landscape" value={convertToDate(family.dob)} onChange={(event, date)=>  this.changeDateField(event, date, i,"dob")}/>
+            <DateValidator hintText="DOB" 
+                            name="dob" 
+                            validators={['required']}
+                            errorMessages={['dob is required']}
+                            mode="landscape" 
+                            value={convertToDate(family.dob)} onChange={(event, date)=>  this.changeDateField(event, date, i,"dob")}/>
           </TableRowColumn>
           <TableRowColumn >
-              <SelectField hintText= "Family Type"
-                         value={family.familyTypeID}
-                         onChange={(event, index, value)=>  this.changeSelectField(event, index, value,i,"familyTypeID")} style={{verticalAlign: 'bottom'}}>
+              <SelectValidator hintText= "Family Type"
+                                name="family type" 
+                                validators={['required']}
+                                errorMessages={['family type is required']}
+                                value={family.familyTypeID}
+                                onChange={(event, index, value)=>  this.changeSelectField(event, index, value,i,"familyTypeID")} style={{verticalAlign: 'bottom'}}>
                   {
                     FamilyTypes.map((lookup,i) => 
                         <MenuItem key={i} value={lookup.lookupValue} primaryText={lookup.lookupText} />
                     )
                   }
-              </SelectField>
+              </SelectValidator>
           </TableRowColumn>
           <TableRowColumn style={{width:'50px'}}> 
               <Checkbox
@@ -166,7 +196,7 @@ class FamilyListComponent extends React.Component {
               /> 
           </TableRowColumn>
           <TableRowColumn>
-              <IconButton value={family.id} onClick={() =>this.handleSave(family, family.saved)}>
+              <IconButton type="submit" onClick={() =>this.handleSaveTemporary(family, family.saved)}>
                   <Save/>
               </IconButton>
               <IconButton value={family.id} onClick={() =>this.handleCancel(family.id, family.saved)}>
@@ -187,6 +217,8 @@ class FamilyListComponent extends React.Component {
             <ContentAdd />
           </FloatingActionButton>
           { this.state.families && this.state.families.length>0 ? (
+            <ValidatorForm ref="form"
+                onSubmit={() =>this.handleSave()}>
                 <Table  selectable={false}>
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                       <TableRow>
@@ -206,6 +238,7 @@ class FamilyListComponent extends React.Component {
                 }
                 </TableBody>
                 </Table>
+                </ValidatorForm>
               ) : (
                 <div className="no-record">
                     <span>No Record Found</span>
