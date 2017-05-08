@@ -16,7 +16,7 @@ import Cancel from 'material-ui/svg-icons/content/clear';
 import Save from 'material-ui/svg-icons/action/done';
 import moment from 'moment';
 import appStore  from '../../../../../store/app.store';
-import { fetchFamilyList, setEditMode, updateFamily, deleteFamily, addNewFamilyRow, deleteUnsavedFamilyRow } from '../../../../../actions/family-list.action';
+import { fetchFamilyList, setEditMode, updateFamily, deleteFamily, addNewFamilyRow, deleteUnsavedFamilyRow, addNewFamily } from '../../../../../actions/family-list.action';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -68,8 +68,13 @@ class FamilyListComponent extends React.Component {
     return true;
   } 
 
-  handleSave(family) {
+  handleSave(family, isSaved) {
+    if(isSaved){
       appStore.dispatch(updateFamily(family));
+    }else{
+      family.employeeGUID = this.props.selectedEmployee.id;
+      appStore.dispatch(addNewFamily(family));
+    }
   }
 
   handleCreateNewRow() {
@@ -161,7 +166,7 @@ class FamilyListComponent extends React.Component {
               /> 
           </TableRowColumn>
           <TableRowColumn>
-              <IconButton value={family.id} onClick={() =>this.handleSave(family)}>
+              <IconButton value={family.id} onClick={() =>this.handleSave(family, family.saved)}>
                   <Save/>
               </IconButton>
               <IconButton value={family.id} onClick={() =>this.handleCancel(family.id, family.saved)}>

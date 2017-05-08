@@ -9,7 +9,7 @@ export const familyReducer = (state, action) => {
             }
         case Action.SET_EDIT_MODE_FAMILY:
             return {
-                ...action.state,
+                ...state,
                 editMode: action.payload.isEdit
             }
         default : 

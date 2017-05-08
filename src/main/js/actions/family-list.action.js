@@ -47,6 +47,26 @@ export const fetchFamilyList = (employeeGuid) => dispatch => {
     })
 }
 
+export const addNewFamily = (family) => dispatch => {
+    let url = `http://localhost:8080/api/familyws/`;
+    fetch(url, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(family)
+    })
+    .then(response => response.json())
+    .then(response => {
+        dispatch(setEditMode(response.data.id, false));
+        dispatch(fetchFamilyList(response.data.employeeGUID));
+    })
+    .catch(error => {
+        dispatch(addError(error.message))
+    })
+}
+
 export const updateFamily = (family) => dispatch => {
     let url = `http://localhost:8080/api/familyws/`;
     fetch(url, {
