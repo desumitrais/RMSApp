@@ -1,0 +1,6 @@
+export const Action = {
+    GET_GRADE: 'GET_GRADE',
+    FETCH_GRADE: 'FETCH_GRADE',
+    CANCEL_FETCH_GRADE: 'CANCEL_FETCH_GRADE',
+    ADD_ERROR: 'ADD_ERROR'
+}
