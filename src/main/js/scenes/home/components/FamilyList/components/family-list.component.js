@@ -65,7 +65,6 @@ class FamilyListComponent extends React.Component {
 
 
   handleSave() {
-    debugger;
     let family = this.state.temporary.selectedFamily;
     let isSaved = this.state.temporary.isSaved;
     if(isSaved){
@@ -81,7 +80,6 @@ class FamilyListComponent extends React.Component {
       selectedFamily : family,
       isSaved: isSaved
     }
-    console.log(temp);
     this.setState({temporary: temp});
   }
 
