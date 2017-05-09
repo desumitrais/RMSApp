@@ -7,8 +7,8 @@ import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import RadioButtonCheckedIcon from 'material-ui/svg-icons/toggle/radio-button-checked';
 import moment from 'moment';
-import appStore from '../../../../../../store/app.store';
-import { Action } from '../../../../../../constants/employee.constant';
+import appStore  from '../../../../../store/app.store';
+import { Action } from '../../../../../constants/employee.constant';
 import { withRouter } from 'react-router-dom';
 
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';

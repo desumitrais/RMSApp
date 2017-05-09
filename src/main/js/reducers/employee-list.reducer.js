@@ -53,6 +53,15 @@ export const fetcEmployeeReducer = (state=false, action) => {
   }
 }
 
+export const sortEmployeeReducer = (state=[], action) => {
+  switch(action.type) {
+    case Action.SET_SORT :
+      return action.payload
+    default:
+      return state
+  }
+}
+
 export const selectedEmployeeReducer = (state=null, action) => {
    return action.type === Action.SET_SELECTED_EMPLOYEE ? action.payload : state;
 }

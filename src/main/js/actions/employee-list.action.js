@@ -74,8 +74,19 @@ export const clearError = (index) => ({
     payload: index
 });
 
-export const fetchEmployees = () => dispatch => {
+export const createSort = (sort) => {
+    let sortString = ``;
+    for(let i=0; i<sort.length; i++){
+        let comma = i != sort.length -1 ? ',' : '';
+        sortString = `${sortString}{'field':'employee.${sort[i].field}','dir':'${sort[i].dir}'}${comma}`;
+    }
+    return sortString;
+}
+
+export const fetchEmployees = (sort,filter) => dispatch => {
+    sort = createSort(sort);
     let url = 'http://localhost:8080/api/employeews/search';
+    url = sort && sort.length>0 ? `${url}?sorting=`+ encodeURIComponent(`[${sort}]`) : url;
     fetch(url)
     .then(response => response.json())
     .then(employees => {

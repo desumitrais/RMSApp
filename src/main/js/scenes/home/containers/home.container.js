@@ -3,7 +3,8 @@ import HomeScreen from '../../home';
 
 const mapStateToProps = (state) => ( {
     selectedEmployee: state.selectedEmployee,
-    selectedEmployeeTab: state.selectedEmployeeTab
+    selectedEmployeeTab: state.selectedEmployeeTab,
+    savedSort : state.sortEmployee
 })
 
 const mapDispatchToProps = {

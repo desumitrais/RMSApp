@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import EmployeeListComponent from '../components/employee-list.component';
 
 const mapStateToProps = (state) => ( {
-    employees: state.employees
+    employees: state.employees,
+    savedSort: state.sortEmployee
 })
 
 const mapDispatchToProps = {

@@ -31,8 +31,12 @@ class HomeScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {employees: [], attributes: [], pageSize: 2, links: {}};
-        appStore.dispatch(fetchEmployees());
+        appStore.dispatch(fetchEmployees(props.savedSort));
 	}   
+
+    componentWillReceiveProps(nextProps) {
+        appStore.dispatch(fetchEmployees(nextProps.savedSort));
+    }
 
     handleChange = (value) => {
         appStore.dispatch({

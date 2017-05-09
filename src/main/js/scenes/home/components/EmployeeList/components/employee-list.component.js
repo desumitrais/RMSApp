@@ -11,43 +11,57 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Cancel from 'material-ui/svg-icons/action/highlight-off';
-import Sort from 'material-ui/svg-icons/content/sort';
+import FontIcon from 'material-ui/FontIcon';
 import { Link } from 'react-router-dom';
 import Dialog from 'material-ui/Dialog';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import * as _ from 'lodash';
-import Employee from './Employee';
+import Employee from './employee.component';
+import appStore  from '../../../../../store/app.store';
+import {Row, Col} from 'react-grid-system';
 
 class EmployeeListComponent extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-            sort: [
-                {field: "name", dir: "asc"}
-            ],
-            savedSort: [
-                {field: "name", dir: "asc"}
-            ],
+            sort: [],
+            savedSort: props.savedSort,
             sortingDialogIsOpen: false,
             filterDialogIsOpen: false,
         }
 	}
 
-    handleOpen = () => {
+    handleAddSort = () => {
+        this.state.sort = [..._.cloneDeep(this.state.sort), {field: "name", dir: "asc"}];
+        this.setState({sort: _.cloneDeep(this.state.sort)});
+    }
+
+    handleRemoveSort = (index) => {
+        this.state.sort = [
+            ...this.state.sort.slice(0,index),
+            ...this.state.sort.slice(index+1)
+        ]
+        this.setState({sort: _.cloneDeep(this.state.sort)});
+    }
+
+    handleOpenSort = () => {
+        this.setState({sort: _.cloneDeep(this.state.savedSort)});
         this.setState({sortingDialogIsOpen: true});
     };
 
-    handleClose = () => {
+    handleCloseSort = () => {
         this.state.sort = _.cloneDeep(this.state.savedSort);
         this.setState({sort: _.cloneDeep(this.state.sort)});
         this.setState({sortingDialogIsOpen: false});
     };
 
     handleSaveSort = () => {
-        this.state.savedSort = _.cloneDeep(this.state.sort);
-        this.setState({savedSort: _.cloneDeep(this.state.savedSort)});
+        appStore.dispatch({
+            type: 'SET_SORT',
+            payload: _.cloneDeep(this.state.sort)
+        });
         this.setState({sortingDialogIsOpen: false});
     };
 
@@ -82,10 +96,10 @@ class EmployeeListComponent extends React.Component {
             field: [
                 {lookupValue: 'name', lookupText: 'Name'},
                 {lookupValue: 'location', lookupText: 'Location'},
-                {lookupValue: 'grade', lookupText: 'Grade'},
-                {lookupValue: 'join date', lookupText: 'Join Date'},
-                {lookupValue: 'created date', lookupText: 'Created Date'},
-                {lookupValue: 'modified date', lookupText: 'Modified Date'}
+                {lookupValue: 'gradeID', lookupText: 'Grade'},
+                {lookupValue: 'hireDate', lookupText: 'Join Date'},
+                {lookupValue: 'createdDate', lookupText: 'Created Date'},
+                {lookupValue: 'updatedDate', lookupText: 'Modified Date'}
             ],
             dir: [
                 {lookupValue: 'asc', lookupText: 'Ascending'},
@@ -104,14 +118,17 @@ class EmployeeListComponent extends React.Component {
                 onTouchTap={this.handleSaveSort}
             />
         ];
-        const title = <div style={{padding: '0px', backgroundColor:'#5c6bc0', height:'55px', textAlign: 'center', position: 'relative'}}>
+        const titleSort = <div style={{padding: '0px', backgroundColor:'#5c6bc0', height:'55px', textAlign: 'center', position: 'relative'}}>
                         <span style={{color: 'white', fontSize:'18px', display:'inline-block', position:'absolute', top: '50%', marginTop: '-16px', left: '50%', marginLeft: '-62px'}}>Sorting Options</span>
-                        <Cancel color={'white'} onClick={this.handleClose} style={{position: 'absolute', cursor: 'pointer', right: '10px', top: '12px', width: '30px', height:'30px', verticalAlign: 'middle'}}/>
+                        <Cancel color={'white'} onClick={this.handleCloseSort} style={{position: 'absolute', cursor: 'pointer', right: '10px', top: '12px', width: '30px', height:'30px', verticalAlign: 'middle'}}/>
                     </div>
 
         const createSort = (i) => 
             <div style={{padding: '10px 10px 10px 10px'}} key={i}>
-                <div className='col-xs-6' style={{textAlign: 'center', marginTop:'10px'}}>
+                <Col xs={1} style={{textAlign: 'center', marginTop:'5px'}}>
+                    <Cancel color={'red'} onClick={ () => this.handleRemoveSort(i) } style={{marginTop: '15px', cursor: 'pointer', verticalAlign: 'middle'}}/>
+                </Col>
+                <Col xs={5} style={{textAlign: 'center', marginTop:'5px'}}>
                     <SelectField style={{width:'100%'}} 
                                 value={this.state.sort[i].field}
                                 onChange={(event, index, value)=>  this.changeSortSelectField(event, index, value, i, 'field')}>
@@ -119,8 +136,10 @@ class EmployeeListComponent extends React.Component {
                                     <MenuItem key={i} value={item.lookupValue} primaryText={item.lookupText} />   
                                 )}
                     </SelectField>
-                </div>
-                <div className='col-xs-6' style={{textAlign: 'center', marginTop:'10px'}}>
+                </Col>
+                <Col xs={1}  style={{textAlign: 'center', marginTop:'5px'}}>
+                </Col>
+                <Col xs={5}  style={{textAlign: 'center', marginTop:'5px'}}>
                     <SelectField style={{width:'100%'}}
                                 value={this.state.sort[i].dir}
                                 onChange={(event, index, value)=>  this.changeSortSelectField(event, index, value, i, 'dir')}>
@@ -128,41 +147,47 @@ class EmployeeListComponent extends React.Component {
                                     <MenuItem key={i} value={item.lookupValue} primaryText={item.lookupText} />   
                                 )}
                     </SelectField>
-                </div>
+                </Col>
             </div>
         
 
 		return (
 			<div>
                 <div>
-                    <Dialog title={title}
+                    <Dialog title={titleSort}
                             modal={true}
                             actions={actions}
                             open={this.state.sortingDialogIsOpen}
                             contentStyle={{width: '536px', minHeight: '300px'}}>
                         <div style={{padding: '20px 10px 10px 10px'}}>
-                            <div className='col-xs-6' style={{textAlign: 'center'}}>Sort By</div>
-                            <div className='col-xs-6' style={{textAlign: 'center'}}>Sort Type</div>
+                            <Col xs={6} style={{textAlign: 'center'}}>Sort By</Col>
+                            <Col xs={6} style={{textAlign: 'center'}}>Sort Type</Col>
                         </div>
                         {
                             this.state.sort.map((item,i)=>
                                 createSort(i)
                             )
                         }
+                        <FloatingActionButton onClick={this.handleAddSort} secondary={true} mini={true} style={{float: 'right'}}>
+                            <ContentAdd />
+                         </FloatingActionButton>
                     </Dialog>
                 </div>
                 <div className="panel-list-header">
-                    <ActionSearch color={'white'} style={{display: 'inline-flex', verticalAlign: 'middle'}}></ActionSearch>
+                    <ActionSearch color={'white'} style={{display: 'inline-flex', verticalAlign: 'middle', width: '10%'}}></ActionSearch>
                     <TextField
                         value={this.state.searchQuery}
                         hintText="Search"
                         onChange={event => this.handleChangeSearchQueryValue(event, 'searchQuery')}
                         onBlur={this.handleUnSearchEmployee.bind(this)}
                         underlineStyle={{display: 'none'}}
-                        style ={{width: '40%'}}
+                        style ={{width: '300px'}}
                         inputStyle={{color: white}}
                         hintStyle={{color: white}}/>
-                    <Sort color={'white'} style={{cursor: 'pointer', display: 'inline-flex', verticalAlign: 'middle'}} onClick={this.handleOpen}/>
+                    <div style={{float: 'right'}}>
+                        <FontIcon className='fa fa-sort-amount-desc' color={'white'} style={{cursor: 'pointer', display: 'inline-flex', verticalAlign: 'middle'}} onClick={this.handleOpenSort}/>
+                        <FontIcon className='fa fa-filter' color={'white'} style={{cursor: 'pointer', display: 'inline-flex', verticalAlign: 'middle'}} onClick={this.handleOpenFilter}/>
+                    </div>
                 </div>
                 <div className="panel-list-container">
                     <List>
