@@ -14,12 +14,13 @@ import Person from 'material-ui/svg-icons/social/person';
 import Family from 'material-ui/svg-icons/notification/wc';
 import History from 'material-ui/svg-icons/action/history';
 import Home from 'material-ui/svg-icons/action/home';
-import Assignment from 'material-ui/svg-icons/action/assignment';
+import Grade from 'material-ui/svg-icons/action/assignment';
 import Place from 'material-ui/svg-icons/maps/place';
 
 import EmployeeListContainer from '../home/components/EmployeeList/containers/employee-list.container';
 import EmployeeDetailContainer from '../home/components/EmployeeDetail/containers/employee-detail.container'
 import FamilyListContainer from '../home/components/FamilyList/containers/family-list.container'
+import GradeListContainer from '../home/components/GradeList/containers/grade-list.container'
 import { Route, Link } from 'react-router-dom';
 import appStore  from '../../store/app.store';
 import { fetchEmployees } from '../../actions/employee-list.action';
@@ -64,7 +65,11 @@ class HomeScreen extends React.Component {
                                     <Route path="/home/detail" component={EmployeeDetailContainer}/>
                                 </Tab>
                                 <Tab value="history" icon={<History />}/>
-                                <Tab value="assignment"icon={<Assignment />}/>
+                                <Tab value="assignment" icon={<Grade />} containerElement={<Link to="/home/grade" />} >
+                                    <div className="panel-list-container">
+                                        <Route path="/home/grade" component={GradeListContainer}/>
+                                    </div>
+                                </Tab>
                                 <Tab value="family"icon={<Family />} containerElement={<Link to="/home/family"/>}>
                                     <div className="panel-list-container">
                                         <Route path="/home/family" component={FamilyListContainer}/>
