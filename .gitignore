@@ -21,6 +21,7 @@
 # Node modules etc #
 #------------------#
 node_modules
+node
 typings
 npm-debug.log*
 .DS_store

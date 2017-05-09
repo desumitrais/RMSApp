@@ -1,3 +1,4 @@
+import { URL } from '../../../../../constants/url.constant';
 import { Action } from '../constants/grade.constant';
 
 export const addError = (message) => ({
@@ -6,7 +7,7 @@ export const addError = (message) => ({
 });
 
 export const fetchGradeList = (employeeGuid) => dispatch => {
-    let url = `http://localhost:8080/api/gradehistoryws/${employeeGuid}`;
+    let url = URL.GET_GRADE_URL + employeeGuid;
     fetch(url)
     .then(response => response.json())
     .then(gradeList => {
@@ -24,3 +25,11 @@ export const fetchGradeList = (employeeGuid) => dispatch => {
 
     })
 }
+
+export const setEditMode = (gradeId, isEdit) => ({
+    type: Action.SET_EDIT_MODE_GRADE,
+    payload: {
+        id: gradeId,
+        isEdit: isEdit
+    }
+});
