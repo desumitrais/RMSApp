@@ -35,9 +35,11 @@ public class EmployeeWS {
     }
 
     @GetMapping("/search")
-    public ResponseREST searchEmployee(@PageableDefault(size = 20, page = 0) Pageable pageable, @RequestParam(value = "filter", required = false) String filter, @RequestParam(value = "sorting", required = false) String sort) {
+    public ResponseREST searchEmployee(@PageableDefault(size = 20, page = 0) Pageable pageable,
+            @RequestParam(value = "filter", required = false) String filter,
+            @RequestParam(value = "sorting", required = false) String sort) {
         SearchParameter searchParameter = new SearchParameter(filter, sort, pageable);
-        List<Employee>  employees = employeeService.searchEmployee(searchParameter);
+        List<Employee> employees = employeeService.searchEmployee(searchParameter);
 
         ResponseREST response = new ResponseREST();
         response.setData(employees);
