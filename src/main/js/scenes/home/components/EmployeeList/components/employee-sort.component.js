@@ -32,6 +32,11 @@ export default class EmployeeSortComponent extends React.Component {
         }
 	}
 
+    componentWillReceiveProps(nextProps) {
+        this.setState( nextProps.savedSort ? { savedSort: nextProps.savedSort } : { savedFilter: []});
+    }
+
+
     handleAddSort = () => {
         this.state.sort = [..._.cloneDeep(this.state.sort), {field: "name", dir: "asc"}];
         this.setState({sort: _.cloneDeep(this.state.sort)});

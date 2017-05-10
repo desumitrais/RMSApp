@@ -41,6 +41,10 @@ export default class EmployeeFilterComponent extends React.Component {
         }
 	}
 
+    componentWillReceiveProps(nextProps) {
+        this.setState( nextProps.savedFilter ? { savedFilter: nextProps.savedFilter } : { savedFilter: []});
+    }
+
     handleAddFilter = () => {
         this.state.filter = [..._.cloneDeep(this.state.filter), {field: "name", operator: "eq", value: ''}];
         this.setState({filter: _.cloneDeep(this.state.filter)});
@@ -147,7 +151,7 @@ export default class EmployeeFilterComponent extends React.Component {
                 <TableRowColumn style={{width:'150px', textAlign: 'center', marginTop:'5px'}}>
                     <TextField value={this.state.filter[i].value}
                         hintText="value"
-                        onChange={(event, index, value)=>  this.changeFilterTextField(event, value, i)}
+                        onChange={(event, value)=>  this.changeFilterTextField(event, value, i)}
                         underlineShow={false}/>
                 </TableRowColumn>
             </TableRow>
