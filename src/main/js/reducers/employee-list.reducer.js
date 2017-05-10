@@ -62,6 +62,25 @@ export const sortEmployeeReducer = (state=[], action) => {
   }
 }
 
+export const searchEmployeeReducer = (state=[], action) => {
+  switch(action.type) {
+    case Action.SET_SEARCH :
+      return action.payload
+    default:
+      return state
+  }
+}
+
+export const filterEmployeeReducer = (state=[], action) => {
+  switch(action.type) {
+    case Action.SET_FILTER :
+    debugger;
+      return action.payload
+    default:
+      return state
+  }
+}
+
 export const selectedEmployeeReducer = (state=null, action) => {
    return action.type === Action.SET_SELECTED_EMPLOYEE ? action.payload : state;
 }

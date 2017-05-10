@@ -17,7 +17,7 @@ import Home from 'material-ui/svg-icons/action/home';
 import Grade from 'material-ui/svg-icons/action/assignment';
 import Place from 'material-ui/svg-icons/maps/place';
 
-import EmployeeListContainer from '../home/components/EmployeeList/containers/employee-list.container';
+import EmployeeTabComponent from '../home/components/EmployeeList/components/employee-tab.component';
 import EmployeeDetailContainer from '../home/components/EmployeeDetail/containers/employee-detail.container'
 import FamilyListContainer from '../home/components/FamilyList/containers/family-list.container'
 import GradeListContainer from '../home/components/GradeList/containers/grade-list.container'
@@ -31,11 +31,11 @@ class HomeScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {employees: [], attributes: [], pageSize: 2, links: {}};
-        appStore.dispatch(fetchEmployees(props.savedSort));
+        appStore.dispatch(fetchEmployees(props.savedSort, props.savedFilter));
 	}   
 
     componentWillReceiveProps(nextProps) {
-        appStore.dispatch(fetchEmployees(nextProps.savedSort));
+        appStore.dispatch(fetchEmployees(nextProps.savedSort, nextProps.savedFilter));
     }
 
     handleChange = (value) => {
@@ -46,6 +46,11 @@ class HomeScreen extends React.Component {
     }
 
 	render() {
+        const styles = {
+            tabContent: {
+                boxShadow: '0px 1px 2px 0.1px #000000'
+            }
+        }
 		return (
 			<div>
                 <MuiThemeProvider>
@@ -60,22 +65,24 @@ class HomeScreen extends React.Component {
                 </MuiThemeProvider>
                 <MuiThemeProvider>
                     <div className="panel-container">
-                        <div className="col-sm-4">
-                            <EmployeeListContainer />
+                        <div className="col-sm-4" style={{padding:'1px'}}>
+                            <EmployeeTabComponent />
                         </div>
-                        <div className="col-sm-8">
+                        <div className="col-sm-8" style={{padding:'1px'}}>
                             <Tabs tabItemContainerStyle={{backgroundColor:"#5c6bc0"}} inkBarStyle={{backgroundColor:"#880e4f"}} value={this.props.selectedEmployeeTab} onChange={this.handleChange}>
                                 <Tab value="detail" icon={<Person/>} containerElement={<Link to="/home/detail"/>}>
-                                    <Route path="/home/detail" component={EmployeeDetailContainer}/>
+                                    <div className="panel-list-container" style={styles.tabContent}>
+                                        <Route path="/home/detail" component={EmployeeDetailContainer}/>
+                                    </div>
                                 </Tab>
                                 <Tab value="history" icon={<History />}/>
                                 <Tab value="assignment" icon={<Grade />} containerElement={<Link to="/home/grade" />} >
-                                    <div className="panel-list-container">
+                                    <div className="panel-list-container" style={styles.tabContent}>
                                         <Route path="/home/grade" component={GradeListContainer}/>
                                     </div>
                                 </Tab>
                                 <Tab value="family"icon={<Family />} containerElement={<Link to="/home/family"/>}>
-                                    <div className="panel-list-container">
+                                    <div className="panel-list-container" style={styles.tabContent}>
                                         <Route path="/home/family" component={FamilyListContainer}/>
                                     </div>
                                 </Tab>

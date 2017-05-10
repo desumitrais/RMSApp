@@ -38,6 +38,14 @@ class Employee extends React.Component {
 	}
 
 	render() {
+		const styles = {
+			boxshadow: {
+				WebkitBoxShadow: '0px 1px 2px 0.1px #000000',
+				MozBoxShadow: '0px 1px 2px 0.1px #000000',
+				boxShadow: '0px 1px 2px 0.1px #000000',
+				margin: '3px'
+			}
+		}
 		const primaryText = <div style={{paddingLeft: "10px", paddingTop:"5px"}}> 
 			<div className="row">
 				<div className="col-xs-9">
@@ -53,7 +61,7 @@ class Employee extends React.Component {
 				<div className="col-xs-9">
 					<div className="row">
 						<div className="col-xs-12">
-							{this.props.employee.email}
+							{this.props.employee.gradeStr+ " " + this.props.employee.divisionStr} 
 						</div>
 						<div className="col-xs-12">
 							{ this.props.employee.phone + ", " + this.props.employee.phone}
@@ -71,7 +79,8 @@ class Employee extends React.Component {
 				primaryText={primaryText}
 				secondaryText={secondaryText}
 				secondaryTextLines={2}
-				onTouchTap={this.onClick}>
+				onTouchTap={this.onClick}
+				style={styles.boxshadow}>
 			</ListItem>
 		)
 	}
