@@ -87,16 +87,17 @@ export const createFilter = (filter) => {
     let filterString = ``;
     for(let i=0; i<filter.length; i++){
         let comma = i != filter.length -1 ? ',' : '';
-        filterString = `${filterString}{'field':'employee.${filter[i].field}','operator':'${filter[i].dir}','value':'${filter[i].value}'}${comma}`;
+        filterString = `${filterString}{'field':'employee.${filter[i].field}','operator':'${filter[i].operator}','value':'${filter[i].value}'}${comma}`;
     }
     return filterString;
 }
 
-export const fetchEmployees = (sort,filter) => dispatch => {
+export const fetchEmployees = (sort,filter,search) => dispatch => {
     sort = createSort(sort);
     filter= createFilter(filter);
     let url = 'http://localhost:8080/api/employeews/search';
     url = sort && sort.length>0 ? `${url}?sorting=`+ encodeURIComponent(`[${sort}]`) : url;
+    url = filter && filter.length>0 ? sort && sort.length>0 ? `${url}&filter=` : `${url}?filter=`+ encodeURIComponent(`[${filter}]`) : url;
     fetch(url)
     .then(response => response.json())
     .then(employees => {

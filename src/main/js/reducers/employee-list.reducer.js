@@ -74,7 +74,6 @@ export const searchEmployeeReducer = (state=[], action) => {
 export const filterEmployeeReducer = (state=[], action) => {
   switch(action.type) {
     case Action.SET_FILTER :
-    debugger;
       return action.payload
     default:
       return state

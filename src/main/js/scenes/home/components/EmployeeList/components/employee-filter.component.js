@@ -25,6 +25,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import TextField from 'material-ui/TextField';
 import {white} from 'material-ui/styles/colors';
+import { ValidatorForm, TextValidator, DateValidator, SelectValidator} from 'react-material-ui-form-validator';
 
 //other
 import * as _ from 'lodash';
@@ -87,6 +88,11 @@ export default class EmployeeFilterComponent extends React.Component {
         this.setState({filter: _.cloneDeep(this.state.filter)});
     }
 
+    changeDateField(event, date, i) {
+        this.state.filter[i].value = date;
+        this.setState({filter: _.cloneDeep(this.state.filter)});
+    }
+
     render() {
         const svgStyle={
             cursor: 'pointer',
@@ -110,6 +116,17 @@ export default class EmployeeFilterComponent extends React.Component {
                 {lookupValue: 'greater than', lookupText: 'Greater Then', type: 'date'},
                 {lookupValue: 'smaller than', lookupText: 'Smaller Then', type: 'date'}
             ],
+            location: [
+                {lookupValue: 1, lookupText: 'Bali Office'},
+                {lookupValue: 2, lookupText: 'Yogyakarta Office'},
+                {lookupValue: 3, lookupText: 'Jakarta Office'}
+            ],
+            grade: [
+                {lookupValue: 1, lookupText: 'SE-JP'},
+                {lookupValue: 2, lookupText: 'SE-PG'},
+                {lookupValue: 3, lookupText: 'SE-AP'},
+                {lookupValue: 4, lookupText: 'SE-AN'}
+            ]
         }
         const actions = [
             <FlatButton
@@ -122,6 +139,9 @@ export default class EmployeeFilterComponent extends React.Component {
                         <span style={{color: 'white', fontSize:'18px', display:'inline-block', position:'absolute', top: '50%', marginTop: '-16px', left: '50%', marginLeft: '-62px'}}>Filtering Options</span>
                         <Cancel color={'white'} onClick={this.handleCloseFilter} style={{position: 'absolute', cursor: 'pointer', right: '10px', top: '12px', width: '30px', height:'30px', verticalAlign: 'middle'}}/>
                     </div>
+
+        const convertToDate = (date) => 
+            new Date(date)
 
         const createFilter = (i) => 
             <TableRow key={i}>
@@ -149,10 +169,56 @@ export default class EmployeeFilterComponent extends React.Component {
                     </SelectField>
                 </TableRowColumn>  
                 <TableRowColumn style={{width:'150px', textAlign: 'center', marginTop:'5px'}}>
-                    <TextField value={this.state.filter[i].value}
+                    { this.state.filter[i].field === 'name'  &&
+                    <TextValidator value={this.state.filter[i].value}
+                        name={this.state.filter[i].field}
                         hintText="value"
+                        validators={['required']}
+                        errorMessages={['field is required']}
                         onChange={(event, value)=>  this.changeFilterTextField(event, value, i)}
-                        underlineShow={false}/>
+                        underlineShow={false}/> 
+                    } 
+                    { this.state.filter[i].field === 'location' &&
+                    <SelectValidator style={{width:'100%', marginTop: '10px'}}
+                                name={this.state.filter[i].field}
+                                hintText="location"
+                                validators={['required']}
+                                errorMessages={['field is required']}
+                                autoWidth={true}
+                                value={this.state.filter[i].value}
+                                underlineShow={false}
+                                onChange={(event, index, value)=>  this.changeFilterSelectField(event, index, value, i, 'value')}>
+                                { lookup.location.map((item,i)=>
+                                    <MenuItem key={i} value={item.lookupValue} primaryText={item.lookupText} />   
+                                )}
+                    </SelectValidator>
+                    }
+                    { this.state.filter[i].field === 'gradeID' &&
+                    <SelectValidator style={{width:'100%', marginTop: '10px'}}
+                                name={this.state.filter[i].field}
+                                hintText="grade"
+                                validators={['required']}
+                                errorMessages={['field is required']}
+                                autoWidth={true}
+                                value={this.state.filter[i].value}
+                                underlineShow={false}
+                                onChange={(event, index, value)=>  this.changeFilterSelectField(event, index, value, i, 'value')}>
+                                { lookup.grade.map((item,i)=>
+                                    <MenuItem key={i} value={item.lookupValue} primaryText={item.lookupText} />   
+                                )}
+                    </SelectValidator>
+                    }
+                    { (this.state.filter[i].field === 'hireDate' || this.state.filter[i].field === 'createdDate' || this.state.filter[i].field === 'updatedDate' ) &&
+                        <DateValidator hintText={this.state.filter[i].field} 
+                            name={this.state.filter[i].field}
+                            hintText="date"
+                            validators={['required']}
+                            errorMessages={['date is required']}
+                            underlineShow={false}
+                            mode="landscape" 
+                            value={this.state.filter[i].value} 
+                            onChange={(event, date)=>  this.changeDateField(event, date, i)}/>
+                    }
                 </TableRowColumn>
             </TableRow>
 
@@ -163,23 +229,26 @@ export default class EmployeeFilterComponent extends React.Component {
                         modal={true}
                         actions={actions}
                         open={this.state.filterDialogIsOpen}
-                        contentStyle={{width: '536px', minHeight: '300px'}}>
+                        contentStyle={{width: '600px', minHeight: '300px'}}>
                     <div style={{padding: '20px 10px 10px 0px'}}>
-                        <Table selectable={false}>
-                            <TableBody displayRowCheckbox={false}>
-                                <TableRow>
-                                    <TableRowColumn style={{width:'50px', fontSize: '18px'}}></TableRowColumn>
-                                    <TableRowColumn style={{width:'150px', fontSize: '18px'}}>Filter By</TableRowColumn>
-                                    <TableRowColumn style={{width:'150px', fontSize: '18px'}}>Operator</TableRowColumn>
-                                    <TableRowColumn style={{width:'150px', fontSize: '18px'}}>Value</TableRowColumn>
-                                </TableRow>
-                                {
-                                    this.state.filter.map((item,i)=>
-                                        createFilter(i)
-                                    )
-                                }
-                            </TableBody>
-                        </Table>
+                        <ValidatorForm ref="form"
+                                       onSubmit={() =>this.handleSaveFilter()}>
+                            <Table selectable={false}>
+                                <TableBody displayRowCheckbox={false}>
+                                    <TableRow>
+                                        <TableRowColumn style={{width:'50px', fontSize: '18px'}}></TableRowColumn>
+                                        <TableRowColumn style={{width:'150px', fontSize: '18px'}}>Filter By</TableRowColumn>
+                                        <TableRowColumn style={{width:'150px', fontSize: '18px'}}>Operator</TableRowColumn>
+                                        <TableRowColumn style={{width:'150px', fontSize: '18px'}}>Value</TableRowColumn>
+                                    </TableRow>
+                                    {
+                                        this.state.filter.map((item,i)=>
+                                            createFilter(i)
+                                        )
+                                    }
+                                </TableBody>
+                            </Table>
+                        </ValidatorForm>
                     </div>
                     
                     <FloatingActionButton onClick={this.handleAddFilter} secondary={true} mini={true} style={{float: 'right'}}>
