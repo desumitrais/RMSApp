@@ -122,10 +122,10 @@ export default class EmployeeFilterComponent extends React.Component {
                 {lookupValue: 3, lookupText: 'Jakarta Office'}
             ],
             grade: [
-                {lookupValue: 1, lookupText: 'SE-JP'},
-                {lookupValue: 2, lookupText: 'SE-PG'},
-                {lookupValue: 3, lookupText: 'SE-AP'},
-                {lookupValue: 4, lookupText: 'SE-AN'}
+                {lookupValue: 'JP', lookupText: 'SE-JP'},
+                {lookupValue: 'PG', lookupText: 'SE-PG'},
+                {lookupValue: 'AP', lookupText: 'SE-AP'},
+                {lookupValue: 'AN', lookupText: 'SE-AN'}
             ]
         }
         const actions = [

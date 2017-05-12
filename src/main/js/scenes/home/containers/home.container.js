@@ -5,7 +5,8 @@ const mapStateToProps = (state) => ( {
     selectedEmployee: state.selectedEmployee,
     selectedEmployeeTab: state.selectedEmployeeTab,
     savedSort : state.sortEmployee,
-    savedFilter: state.filterEmployee
+    savedFilter: state.filterEmployee,
+    savedSearch: state.searchEmployee
 })
 
 const mapDispatchToProps = {

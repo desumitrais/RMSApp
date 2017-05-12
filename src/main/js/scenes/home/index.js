@@ -35,7 +35,7 @@ class HomeScreen extends React.Component {
 	}   
 
     componentWillReceiveProps(nextProps) {
-        appStore.dispatch(fetchEmployees(nextProps.savedSort, nextProps.savedFilter));
+        appStore.dispatch(fetchEmployees(nextProps.savedSort, nextProps.savedFilter, nextProps.savedSearch));
     }
 
     handleChange = (value) => {
