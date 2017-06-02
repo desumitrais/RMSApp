@@ -1,0 +1,28 @@
+# -------------- #
+# Java defaults  #
+# -------------- #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+#------------------------#
+# IntelliJ IDEA specific #
+#------------------------#
+*.iml
+.idea/
+/target/
+/settings.xml
+/bin/
+
+#------------------#
+# Node modules etc #
+#------------------#
+node_modules
+node
+typings
+npm-debug.log*
+.DS_store
+/src/main/resources/static/built/*
